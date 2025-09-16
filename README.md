@@ -54,15 +54,14 @@ class Sale {
 
 class SaleVehicle {
     <<entity>>
-    - saleVehicleId: SaleVehicleId
     - sale: Sale
     - vehicle: Vehicle
     - paymentType: PaymentType 
 }
 
 class SaleVehicleId {
-    - saleId: String
-    - vehicleId: String
+    - sale: String
+    - vehicle: String
 }
 
 
