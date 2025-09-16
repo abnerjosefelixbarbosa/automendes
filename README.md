@@ -57,6 +57,7 @@ class SaleVehicle {
     - saleVehicleId: SaleVehicleId
     - sale: Sale
     - vehicle: Vehicle
+    - paymentType: PaymentType 
 }
 
 class SaleVehicleId {
