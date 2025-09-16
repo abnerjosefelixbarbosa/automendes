@@ -123,7 +123,9 @@ class VehicleType {
 - Hibernate/JPA
 - Lombok
 - PostgreeSQL
+- H2
 - MVC
+- SOLID
 - API Rest
 
 # Frontend
