@@ -23,7 +23,7 @@ import com.automendes.backend.service.EmployeeService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(name = "/employees")
+@RequestMapping(value = "/employees")
 public class EmployeeController {
 	@Autowired
     private EmployeeService employeeService;
@@ -31,17 +31,15 @@ public class EmployeeController {
 	private EmployeeMapper employeeMapper;
 	
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping(name = "/register-employee")
+	@PostMapping(value = "/register-employee")
 	public ResponseEntity<EmployeeResponseDTO> registerEmployee(@Valid @RequestBody EmployeeRequestDTO employeeRequestDTO) {
 		Employee employee = employeeMapper.toEmployee(employeeRequestDTO);
 		
-		System.out.println(employee.toString());
-		
-		//Employee employeeRegisted = employeeService.registerEmployee(employee);
+		Employee employeeRegisted = employeeService.registerEmployee(employee);
 
-		//EmployeeResponseDTO employeeResponseDTO = employeeMapper.toEmployeeResponseDTO(employeeRegisted);
+		EmployeeResponseDTO employeeResponseDTO = employeeMapper.toEmployeeResponseDTO(employeeRegisted);
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(null);
+		return ResponseEntity.status(HttpStatus.CREATED).body(employeeResponseDTO);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
