@@ -7,7 +7,8 @@ import com.automendes.backend.validation.EmployeeValidation;
 
 @Component
 public class EmployeeValidationImp implements EmployeeValidation {
-
+	
+	
 	@Override
 	public void validateEmployeeRegistration(Employee employee) {
 		
@@ -17,5 +18,5 @@ public class EmployeeValidationImp implements EmployeeValidation {
 	public void validateEmployeeUpdate(Employee employee) {
 		
 	}
-	
+
 }

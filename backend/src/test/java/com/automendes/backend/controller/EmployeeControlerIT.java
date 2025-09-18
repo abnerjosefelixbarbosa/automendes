@@ -45,13 +45,12 @@ class EmployeeControlerIT {
 
 	@Test
 	void shouldRegisterEmployeeAndReturnStatus201() throws Exception {
-		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("name1", "email1", "1", "81911111111",
-				LocalDate.of(1991, 01, 01), BigDecimal.valueOf(10.566), EmployeeType.MANAGER);
+		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("name1", "email1@gmail.com", "1111111111",
+				"81911111111", LocalDate.now().withYear(1991), BigDecimal.ONE, EmployeeType.MANAGER);
 
 		String object = objectMapper.writeValueAsString(employeeRequestDTO);
 
 		mockMvc.perform(post("/employees/register-employee").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isCreated()).andDo(print());
 	}
-	
 }
