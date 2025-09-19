@@ -26,27 +26,33 @@ import jakarta.validation.Valid;
 @RequestMapping(value = "/employees")
 public class EmployeeController {
 	@Autowired
-    private EmployeeService employeeService;
+	private EmployeeService employeeService;
 	@Autowired
 	private EmployeeMapper employeeMapper;
-	
+
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(value = "/register-employee")
 	public ResponseEntity<EmployeeResponseDTO> registerEmployee(@Valid @RequestBody EmployeeRequestDTO dto) {
 		Employee employee = employeeMapper.toEmployee(dto);
-		
+
 		employee = employeeService.registerEmployee(employee);
 
 		EmployeeResponseDTO employeeResponseDTO = employeeMapper.toEmployeeResponseDTO(employee);
-		
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(employeeResponseDTO);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
 	@PutMapping(name = "/update-employee")
-	public ResponseEntity<Employee> updateEmployee(@RequestParam String id, @RequestBody Employee employee) {
+	public ResponseEntity<EmployeeResponseDTO> updateEmployee(@RequestParam String id,
+			@Valid @RequestBody EmployeeRequestDTO dto) {
+		Employee employee = employeeMapper.toEmployee(dto);
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(null);
+		employee = employeeService.registerEmployee(employee);
+
+		EmployeeResponseDTO employeeResponseDTO = employeeMapper.toEmployeeResponseDTO(employee);
+
+		return ResponseEntity.status(HttpStatus.OK).body(employeeResponseDTO);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
@@ -54,5 +60,5 @@ public class EmployeeController {
 	public ResponseEntity<Page<Employee>> listEmployees(Pageable pageable) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(null);
 	}
-	
+
 }
