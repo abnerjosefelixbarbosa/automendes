@@ -9,6 +9,8 @@ import com.automendes.backend.enums.EmployeeType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -38,9 +40,10 @@ public class Employee {
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private LocalDate birthDate;
-	@Column(nullable = false, scale = 2)
+	@Column(scale = 2)
 	private BigDecimal commission;
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	private EmployeeType employeeType;
 	@OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Sale> sales;

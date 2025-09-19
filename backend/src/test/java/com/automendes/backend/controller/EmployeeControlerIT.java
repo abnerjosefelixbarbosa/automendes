@@ -18,9 +18,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.automendes.backend.dto.EmployeeRequestDTO;
+import com.automendes.backend.entity.Employee;
 import com.automendes.backend.enums.EmployeeType;
 import com.automendes.backend.repository.EmployeeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.uuid.Generators;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -45,12 +47,23 @@ class EmployeeControlerIT {
 
 	@Test
 	void shouldRegisterEmployeeAndReturnStatus201() throws Exception {
+		//loadEmployee();
+		
 		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("name1", "email1@gmail.com", "1111111111",
-				"81911111111", LocalDate.now().withYear(1991), BigDecimal.ONE, EmployeeType.MANAGER);
+				"81911111111", LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.SELLER);
 
 		String object = objectMapper.writeValueAsString(employeeRequestDTO);
 
 		mockMvc.perform(post("/employees/register-employee").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isCreated()).andDo(print());
+	}
+	
+	void loadEmployee() {
+		String uuid = Generators.timeBasedEpochRandomGenerator().generate().toString();
+		
+		Employee employee = new Employee(uuid, "name1", "email1@gmail.com", "1111111111",
+				"81911111111", LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.SELLER, null);
+		
+		employeeRepository.save(employee);
 	}
 }

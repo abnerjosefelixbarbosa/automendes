@@ -22,9 +22,9 @@ public record EmployeeRequestDTO(
 		@Size(message = "Email deve ter no máximo 50 caracteres.", max = 50)
 		@Email(message = "Email deve ser valido.")
 		String email,
-		@NotEmpty(message = "Matricula deve ser obrigatória.")
-		@NotNull(message = "Matricula deve ser obrigatória.")
-		@Size(message = "Matricula deve ter 10 caracteres.", min = 10, max = 10)
+		@NotEmpty(message = "Matrícula deve ser obrigatória.")
+		@NotNull(message = "Matrícula deve ser obrigatória.")
+		@Size(message = "Matrícula deve ter 10 caracteres.", min = 10, max = 10)
 		String matriculation,
 		@NotEmpty(message = "Telefone deve ser obrigatório.")
 		@NotNull(message = "Telefone deve ser obrigatório.")
