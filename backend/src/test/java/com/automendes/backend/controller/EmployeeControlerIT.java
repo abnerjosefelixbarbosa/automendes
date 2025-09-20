@@ -1,6 +1,8 @@
 package com.automendes.backend.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,6 +36,7 @@ class EmployeeControlerIT {
 	private ObjectMapper objectMapper;
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	private String id;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -47,8 +50,8 @@ class EmployeeControlerIT {
 
 	@Test
 	void shouldRegisterEmployeeAndReturnStatus201() throws Exception {
-		//loadEmployee();
-		
+		// loadEmployee();
+
 		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("name1", "email1@gmail.com", "1111111111",
 				"81911111111", LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.SELLER);
 
@@ -57,13 +60,33 @@ class EmployeeControlerIT {
 		mockMvc.perform(post("/employees/register-employee").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isCreated()).andDo(print());
 	}
-	
+
+	@Test
+	void shouldUpdateEmployeeAndReturnStatus200() throws Exception {
+		loadEmployee();
+
+		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("name2", "email2@gmail.com", "1111111112",
+				"81911111112", LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.MANAGER);
+
+		String object = objectMapper.writeValueAsString(employeeRequestDTO);
+
+		mockMvc.perform(put("/employees/update-employee").queryParam("id", id + "").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isOk()).andDo(print());
+	}
+
+	@Test
+	void shouldListEmployeesAndReturnStatus200() throws Exception {
+		loadEmployee();
+
+		mockMvc.perform(get("/employees/list-employees")).andExpect(status().isOk()).andDo(print());
+	}
+
 	void loadEmployee() {
-		String uuid = Generators.timeBasedEpochRandomGenerator().generate().toString();
-		
-		Employee employee = new Employee(uuid, "name1", "email1@gmail.com", "1111111111",
-				"81911111111", LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.SELLER, null);
-		
-		employeeRepository.save(employee);
+		String uuid1 = Generators.timeBasedEpochRandomGenerator().generate().toString();
+
+		Employee employee1 = new Employee(uuid1, "name1", "email1@gmail.com", "1111111111", "81911111111",
+				LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.SELLER, null);
+
+		id = employeeRepository.save(employee1).getId();
 	}
 }

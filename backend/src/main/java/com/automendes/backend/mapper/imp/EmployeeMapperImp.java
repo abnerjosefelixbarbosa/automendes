@@ -6,22 +6,20 @@ import com.automendes.backend.dto.EmployeeRequestDTO;
 import com.automendes.backend.dto.EmployeeResponseDTO;
 import com.automendes.backend.entity.Employee;
 import com.automendes.backend.mapper.EmployeeMapper;
-import com.fasterxml.uuid.Generators;
 
 @Component
 public class EmployeeMapperImp implements EmployeeMapper {
-
-	@Override
 	public Employee toEmployee(EmployeeRequestDTO dto) {
-		String uuid = Generators.timeBasedEpochRandomGenerator().generate().toString();
-
-		Employee employee = new Employee(uuid, dto.name(), dto.email(), dto.matriculation(), dto.phone(),
+		Employee employee = new Employee(null, dto.name(), dto.email(), dto.matriculation(), dto.phone(),
 				dto.birthDate(), dto.commission(), dto.employeeType(), null);
+		
+		if (dto.employeeType().ordinal() != 2) {
+			employee.setCommission(null);
+		}
 
 		return employee;
 	}
 
-	@Override
 	public EmployeeResponseDTO toEmployeeResponseDTO(Employee entity) {
 		EmployeeResponseDTO employeeResponseDTO = new EmployeeResponseDTO(entity.getId(), entity.getName(),
 				entity.getEmail(), entity.getMatriculation(), entity.getPhone(), entity.getBirthDate(),
@@ -29,5 +27,4 @@ public class EmployeeMapperImp implements EmployeeMapper {
 
 		return employeeResponseDTO;
 	}
-
 }

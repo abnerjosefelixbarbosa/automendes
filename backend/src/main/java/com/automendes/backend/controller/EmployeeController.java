@@ -43,22 +43,24 @@ public class EmployeeController {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@PutMapping(name = "/update-employee")
+	@PutMapping(value = "/update-employee")
 	public ResponseEntity<EmployeeResponseDTO> updateEmployee(@RequestParam String id,
 			@Valid @RequestBody EmployeeRequestDTO dto) {
 		Employee employee = employeeMapper.toEmployee(dto);
 
-		employee = employeeService.registerEmployee(employee);
+		Employee employeeUpdated = employeeService.updateEmployee(id, employee);
 
-		EmployeeResponseDTO employeeResponseDTO = employeeMapper.toEmployeeResponseDTO(employee);
+		EmployeeResponseDTO employeeResponseDTO = employeeMapper.toEmployeeResponseDTO(employeeUpdated);
 
 		return ResponseEntity.status(HttpStatus.OK).body(employeeResponseDTO);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(name = "/list-employees")
-	public ResponseEntity<Page<Employee>> listEmployees(Pageable pageable) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(null);
-	}
+	@GetMapping(value = "/list-employees")
+	public ResponseEntity<Page<EmployeeResponseDTO>> listEmployees(Pageable pageable) {
+		Page<EmployeeResponseDTO> page = employeeService.listEmployees(pageable)
+				.map(employeeMapper::toEmployeeResponseDTO);
 
+		return ResponseEntity.status(HttpStatus.OK).body(page);
+	}
 }

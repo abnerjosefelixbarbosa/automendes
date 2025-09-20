@@ -12,7 +12,6 @@ public class EmployeeValidationImp implements EmployeeValidation {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
-	@Override
 	public void validateEmployeeRegistration(Employee employee) {
 		boolean isExistsNameOrEmailOrMatriculationOrPlone = employeeRepository.existsByNameOrEmailOrMatriculationOrPhone(employee.getName(), employee.getEmail(), employee.getMatriculation(), employee.getPhone());
 	    
@@ -31,7 +30,6 @@ public class EmployeeValidationImp implements EmployeeValidation {
 		}
 	}
 
-	@Override
 	public void validateEmployeeUpdate(Employee employee) {
         boolean isExistsNameOrEmailOrMatriculationOrPlone = employeeRepository.existsByNameOrEmailOrMatriculationOrPhone(employee.getName(), employee.getEmail(), employee.getMatriculation(), employee.getPhone());
 	    
@@ -49,5 +47,4 @@ public class EmployeeValidationImp implements EmployeeValidation {
 			}
 		}
 	}
-
 }
