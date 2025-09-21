@@ -8,7 +8,7 @@ import com.automendes.backend.entity.Employee;
 public interface EmployeeService {
 	Employee registerEmployee(Employee employee);
 
-	Employee updateEmployee(String id, Employee employee);
+	Employee updateEmployeeById(String id, Employee employee);
 
 	Page<Employee> listEmployees(Pageable pageable);
 }

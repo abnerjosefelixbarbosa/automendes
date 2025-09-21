@@ -35,20 +35,20 @@ public class EmployeeController {
 	public ResponseEntity<EmployeeResponseDTO> registerEmployee(@Valid @RequestBody EmployeeRequestDTO dto) {
 		Employee employee = employeeMapper.toEmployee(dto);
 
-		employee = employeeService.registerEmployee(employee);
+		Employee employeeRegistered = employeeService.registerEmployee(employee);
 
-		EmployeeResponseDTO employeeResponseDTO = employeeMapper.toEmployeeResponseDTO(employee);
+		EmployeeResponseDTO employeeResponseDTO = employeeMapper.toEmployeeResponseDTO(employeeRegistered);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(employeeResponseDTO);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@PutMapping(value = "/update-employee")
-	public ResponseEntity<EmployeeResponseDTO> updateEmployee(@RequestParam String id,
+	@PutMapping(value = "/update-employee-by-id")
+	public ResponseEntity<EmployeeResponseDTO> updateEmployeeById(@RequestParam String id,
 			@Valid @RequestBody EmployeeRequestDTO dto) {
 		Employee employee = employeeMapper.toEmployee(dto);
 
-		Employee employeeUpdated = employeeService.updateEmployee(id, employee);
+		Employee employeeUpdated = employeeService.updateEmployeeById(id, employee);
 
 		EmployeeResponseDTO employeeResponseDTO = employeeMapper.toEmployeeResponseDTO(employeeUpdated);
 

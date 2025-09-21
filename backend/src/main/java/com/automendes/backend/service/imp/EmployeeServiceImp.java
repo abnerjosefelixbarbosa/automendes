@@ -34,7 +34,7 @@ public class EmployeeServiceImp implements EmployeeService {
 	}
 
 	@Transactional
-	public Employee updateEmployee(String id, Employee employee) {
+	public Employee updateEmployeeById(String id, Employee employee) {
 		employeeValidation.validateEmployeeUpdate(employee);
 		
 		Employee employeeFound = employeeRepository.findById(id)

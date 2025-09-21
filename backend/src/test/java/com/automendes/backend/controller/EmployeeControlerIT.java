@@ -62,7 +62,7 @@ class EmployeeControlerIT {
 	}
 
 	@Test
-	void shouldUpdateEmployeeAndReturnStatus200() throws Exception {
+	void shouldUpdateEmployeeByIdAndReturnStatus200() throws Exception {
 		loadEmployee();
 
 		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("name2", "email2@gmail.com", "1111111112",
@@ -70,7 +70,7 @@ class EmployeeControlerIT {
 
 		String object = objectMapper.writeValueAsString(employeeRequestDTO);
 
-		mockMvc.perform(put("/employees/update-employee").queryParam("id", id + "").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(put("/employees/update-employee-by-id").queryParam("id", id + "").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isOk()).andDo(print());
 	}
 
