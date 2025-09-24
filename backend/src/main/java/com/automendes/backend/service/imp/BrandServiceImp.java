@@ -28,7 +28,7 @@ public class BrandServiceImp implements BrandService {
 
 		String uuid = Generators.timeBasedEpochRandomGenerator().generate().toString();
 
-		brand.setId(uuid);
+		brand.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
 
 		return brandRepository.save(brand);
 	}

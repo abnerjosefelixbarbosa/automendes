@@ -1,6 +1,13 @@
 package com.automendes.backend.dto;
 
-public record BrandResponseDTO(
-		String id,
-		String name
-) {}
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BrandResponseDTO {
+	private String id;
+	private String name;
+}

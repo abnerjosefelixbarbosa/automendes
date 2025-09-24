@@ -50,8 +50,6 @@ class EmployeeControlerIT {
 
 	@Test
 	void shouldRegisterEmployeeAndReturnStatus201() throws Exception {
-		// loadEmployee();
-
 		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("name1", "email1@gmail.com", "1111111111",
 				"81911111111", LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.SELLER);
 
@@ -82,11 +80,10 @@ class EmployeeControlerIT {
 	}
 
 	void loadEmployee() {
-		String uuid1 = Generators.timeBasedEpochRandomGenerator().generate().toString();
-
-		Employee employee1 = new Employee(uuid1, "name1", "email1@gmail.com", "1111111111", "81911111111",
+		Employee employee1 = new Employee(Generators.timeBasedEpochRandomGenerator().generate().toString(), "name1", "email1@gmail.com", "1111111111", "81911111111",
 				LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.SELLER, null);
 
+		
 		id = employeeRepository.save(employee1).getId();
 	}
 }

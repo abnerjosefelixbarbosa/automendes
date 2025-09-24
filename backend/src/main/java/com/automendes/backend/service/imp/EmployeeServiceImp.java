@@ -28,7 +28,7 @@ public class EmployeeServiceImp implements EmployeeService {
 		
 		String uuid = Generators.timeBasedEpochRandomGenerator().generate().toString();
 		
-		employee.setId(uuid);
+		employee.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
 
 		return employeeRepository.save(employee);
 	}

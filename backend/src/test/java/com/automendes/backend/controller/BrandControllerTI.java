@@ -46,8 +46,6 @@ public class BrandControllerTI {
 
 	@Test
 	void shouldRegisterBrandAndReturnStatus201() throws Exception {
-		// loadEmployee();
-
 		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome1");
 
 		String object = objectMapper.writeValueAsString(brandRequestDTO);
@@ -77,9 +75,7 @@ public class BrandControllerTI {
 	}
 
 	void loadBrands() {
-		String uuid1 = Generators.timeBasedEpochRandomGenerator().generate().toString();
-
-		Brand brand1 = new Brand(uuid1, "nome1", null);
+		Brand brand1 = new Brand(Generators.timeBasedEpochRandomGenerator().generate().toString(), "nome1", null);
 
 		id = brandRepository.save(brand1).getId();
 	}
