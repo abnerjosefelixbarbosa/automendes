@@ -26,8 +26,6 @@ public class BrandServiceImp implements BrandService {
 	public Brand registerBrand(Brand brand) {
 		brandValidation.validateBrandRegistration(brand);
 
-		String uuid = Generators.timeBasedEpochRandomGenerator().generate().toString();
-
 		brand.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
 
 		return brandRepository.save(brand);
@@ -39,7 +37,7 @@ public class BrandServiceImp implements BrandService {
 
 		Brand brandFound = brandRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("Id deve ser existente."));
-		
+
 		BeanUtils.copyProperties(brand, brandFound, "id");
 
 		return brandRepository.save(brandFound);
@@ -47,5 +45,10 @@ public class BrandServiceImp implements BrandService {
 
 	public Page<Brand> listBrands(Pageable pageable) {
 		return brandRepository.findAll(pageable);
+	}
+
+	public Brand findBrandByName(String name) {
+		return brandRepository.findByName(name)
+				.orElseThrow(() -> new NotFoundException("Nome da marca deve ser existente."));
 	}
 }

@@ -26,8 +26,6 @@ public class EmployeeServiceImp implements EmployeeService {
 	public Employee registerEmployee(Employee employee) {
 		employeeValidation.validateEmployeeRegistration(employee);
 		
-		String uuid = Generators.timeBasedEpochRandomGenerator().generate().toString();
-		
 		employee.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
 
 		return employeeRepository.save(employee);
