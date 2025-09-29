@@ -27,6 +27,7 @@ class Customer {
     - email: String
     - phone: String 
     - customerType: CustomerType
+    - sales: List~Sale~
 }
 
 class Employee {
@@ -39,6 +40,7 @@ class Employee {
     - birthDate: LocalDate
     - commission: BigDecimal
     - employeeType: EmployeeType
+    - sales: List~Sale~
 }
 
 class Sale {
@@ -50,18 +52,19 @@ class Sale {
     - paymentType: PaymentType
     - customer: Customer
     - employee: Employee
+    - saleVehicles: List~SaleVehicle~ 
 }
 
 class SaleVehicle {
     <<entity>>
     - sale: Sale
     - vehicle: Vehicle
-    - paymentType: PaymentType 
+    - paymentType: PaymentType  
 }
 
 class SaleVehicleId {
-    - sale: String
-    - vehicle: String
+    - saleId: String
+    - vehicleId: String
 }
 
 
@@ -73,6 +76,7 @@ class Vehicle {
     - model: Model
     - boxgearType: BoxgearType
     - vehicleType: VehicleType
+    - saleVehicles: List~SaleVehicle~ 
 }
 
 class Model {
@@ -80,12 +84,14 @@ class Model {
     - id: String
     - name: String
     - brand: Brand
+    - vehicles: List~Vehicle~
 }
 
 class Brand {
     <<entity>>
     - id: String
     - name: String
+    - models: List~Model~  
 }
 
 class PaymentType {
