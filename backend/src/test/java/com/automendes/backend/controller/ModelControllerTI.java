@@ -6,9 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,11 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.automendes.backend.dto.EmployeeRequestDTO;
 import com.automendes.backend.dto.ModelRequestDTO;
 import com.automendes.backend.entity.Brand;
 import com.automendes.backend.entity.Model;
-import com.automendes.backend.enums.EmployeeType;
 import com.automendes.backend.repository.BrandRepository;
 import com.automendes.backend.repository.ModelRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,12 +65,13 @@ class ModelControllerTI {
 
 	@Test
 	void shouldUpdateModelByIdAndReturnStatus200() throws Exception {
+		loadBrand();
+		
 		loadModel();
+		
+		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("nome2", "nome1");
 
-		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("name2", "email2@gmail.com", "1111111112",
-				"81911111112", LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.MANAGER);
-
-		String object = objectMapper.writeValueAsString(employeeRequestDTO);
+		String object = objectMapper.writeValueAsString(modelRequestDTO);
 
 		mockMvc.perform(put("/models/update-model-by-id").queryParam("id", id + "")
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
@@ -84,6 +80,8 @@ class ModelControllerTI {
 
 	@Test
 	void shouldListModelsAndReturnStatus200() throws Exception {
+		loadBrand();
+		
 		loadModel();
 
 		mockMvc.perform(get("/models/list-models")).andExpect(status().isOk()).andDo(print());

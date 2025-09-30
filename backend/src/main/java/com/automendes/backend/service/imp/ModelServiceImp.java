@@ -43,12 +43,20 @@ public class ModelServiceImp implements ModelService {
 	public Model updateModelById(String id, Model model) {
 		modelValidation.validateUpdateModel(model);
 		
+        Brand brand = brandService.findBrandByName(model.getBrand().getName()); 
+		
+		model.setBrand(brand);
+		
+		//System.out.println(brand.toString());
+		
 		Model modelFound = modelRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("Id deve ser existente."));
 		
 		BeanUtils.copyProperties(model, modelFound, "id");
 		
 		return modelRepository.save(modelFound);
+		
+		//return modelRepository.save(null);
 	}
 
 	public Page<Model> listModels(Pageable pageable) {
