@@ -15,9 +15,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.automendes.backend.dto.CustomerRequestDTO;
+import com.automendes.backend.entity.Customer;
 import com.automendes.backend.enums.CustomerType;
 import com.automendes.backend.repository.CustomerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.uuid.Generators;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -43,12 +45,24 @@ class CustomerControllerTI {
 
 	@Test
 	void shouldRegisterCustomerAndReturnStatus201() throws Exception {
-		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("11111111111", "nome1", "email1gmail.com", "81911111111",
-				CustomerType.PF);
+		//loadCustomers();
+		
+		//CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("57785719000100", "nome1", "email1@gmail.com", "81911111111",
+		//		CustomerType.PJ);
+		
+		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("52026255024", "nome1", "email1@gmail.com", "81911111111",
+				CustomerType.PJ);
 
 		String object = objectMapper.writeValueAsString(customerRequestDTO);
 
 		mockMvc.perform(post("/customers/register-customer").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isCreated()).andDo(print());
+	}
+
+	void loadCustomers() {
+		Customer customer = new Customer(Generators.timeBasedEpochRandomGenerator().toString(),"52026255024", "nome1", "email1@gmail.com",
+				"81911111111", CustomerType.PF, null);
+		
+		id = customerRepository.save(customer).getId();
 	}
 }

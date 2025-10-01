@@ -20,6 +20,8 @@ public class CustomerServiceImp implements CustomerService {
 
 	@Transactional
 	public Customer registerCustomer(Customer customer) {
+		customerValidation.validateCustomerRegistration(customer);
+		
 		customer.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
 		
 		return customerRepository.save(customer);
