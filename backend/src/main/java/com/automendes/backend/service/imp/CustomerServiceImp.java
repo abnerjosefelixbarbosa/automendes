@@ -33,11 +33,11 @@ public class CustomerServiceImp implements CustomerService {
 	public Customer updateCustomerById(String id, Customer customer) {
 		customerValidation.validateCustomerUpdate(customer);
 
-		Customer customer2 = customerRepository.findById(id)
+		Customer customerFound = customerRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("Id deve existir."));
 
-		BeanUtils.copyProperties(customer, customer2, "id");
+		BeanUtils.copyProperties(customer, customerFound, "id");
 		
-		return customerRepository.save(customer2);
+		return customerRepository.save(customerFound);
 	}
 }
