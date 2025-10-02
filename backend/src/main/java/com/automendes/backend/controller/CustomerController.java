@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,5 +33,13 @@ public class CustomerController {
 		Customer customer = customerService.registerCustomer(customerMapper.toCustomer(dto));
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(customerMapper.toCustomerResponseDTO(customer));
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@PutMapping(value = "/update-customer-by-id")
+	public ResponseEntity<CustomerResponseDTO> updateCustomerById(@RequestParam String id, @RequestBody @Valid CustomerRequestDTO dto) {
+		Customer customer = customerService.updateCustomerById(id, customerMapper.toCustomer(dto));
+
+		return ResponseEntity.status(HttpStatus.OK).body(customerMapper.toCustomerResponseDTO(customer));
 	}
 }

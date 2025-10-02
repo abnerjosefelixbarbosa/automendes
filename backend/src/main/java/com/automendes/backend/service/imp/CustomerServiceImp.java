@@ -1,9 +1,11 @@
 package com.automendes.backend.service.imp;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.automendes.backend.entity.Customer;
+import com.automendes.backend.exception.NotFoundException;
 import com.automendes.backend.repository.CustomerRepository;
 import com.automendes.backend.service.CustomerService;
 import com.automendes.backend.validation.CustomerValidation;
@@ -21,9 +23,21 @@ public class CustomerServiceImp implements CustomerService {
 	@Transactional
 	public Customer registerCustomer(Customer customer) {
 		customerValidation.validateCustomerRegistration(customer);
-		
+
 		customer.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
-		
+
 		return customerRepository.save(customer);
+	}
+
+	@Transactional
+	public Customer updateCustomerById(String id, Customer customer) {
+		customerValidation.validateCustomerUpdate(customer);
+
+		Customer customer2 = customerRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Id deve existir."));
+
+		BeanUtils.copyProperties(customer, customer2, "id");
+		
+		return customerRepository.save(customer2);
 	}
 }

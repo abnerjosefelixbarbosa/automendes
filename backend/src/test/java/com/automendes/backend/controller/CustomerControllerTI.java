@@ -1,6 +1,7 @@
 package com.automendes.backend.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -57,6 +58,19 @@ class CustomerControllerTI {
 
 		mockMvc.perform(post("/customers/register-customer").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isCreated()).andDo(print());
+	}
+	
+	@Test
+	void shouldUpdateCustomerByIdAndReturnStatus200() throws Exception {
+		loadCustomers();
+		
+		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("06199835077", "nome2", "email2@gmail.com", "81911111112",
+				CustomerType.PF);
+
+		String object = objectMapper.writeValueAsString(customerRequestDTO);
+
+		mockMvc.perform(put("/customers/update-customer-by-id").queryParam("id", id).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isOk()).andDo(print());
 	}
 
 	void loadCustomers() {
