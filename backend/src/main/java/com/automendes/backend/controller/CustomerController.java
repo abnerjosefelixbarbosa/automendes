@@ -3,6 +3,7 @@ package com.automendes.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,11 +35,20 @@ public class CustomerController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(customerMapper.toCustomerResponseDTO(customer));
 	}
-	
+
 	@ResponseStatus(HttpStatus.OK)
 	@PutMapping(value = "/update-customer-by-id")
-	public ResponseEntity<CustomerResponseDTO> updateCustomerById(@RequestParam String id, @RequestBody @Valid CustomerRequestDTO dto) {
+	public ResponseEntity<CustomerResponseDTO> updateCustomerById(@RequestParam String id,
+			@RequestBody @Valid CustomerRequestDTO dto) {
 		Customer customer = customerService.updateCustomerById(id, customerMapper.toCustomer(dto));
+
+		return ResponseEntity.status(HttpStatus.OK).body(customerMapper.toCustomerResponseDTO(customer));
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(value = "/search-customer-by-document")
+	public ResponseEntity<CustomerResponseDTO> searchCustomerByDocument(@RequestParam String document) {
+		Customer customer = customerService.searchCustomerByDocument(document);
 
 		return ResponseEntity.status(HttpStatus.OK).body(customerMapper.toCustomerResponseDTO(customer));
 	}

@@ -1,5 +1,6 @@
 package com.automendes.backend.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -33,6 +34,7 @@ class CustomerControllerTI {
 	@Autowired
 	private CustomerRepository customerRepository;
 	private String id;
+	private String document;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -46,37 +48,45 @@ class CustomerControllerTI {
 
 	@Test
 	void shouldRegisterCustomerAndReturnStatus201() throws Exception {
-		//loadCustomers();
-		
-		//CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("57785719000100", "nome1", "email1@gmail.com", "81911111111",
-		//		CustomerType.PJ);
-		
-		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("52026255024", "nome1", "email1@gmail.com", "81911111111",
-				CustomerType.PJ);
+		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("52026255024", "nome1", "email1@gmail.com",
+				"81911111111", CustomerType.PF);
 
 		String object = objectMapper.writeValueAsString(customerRequestDTO);
 
 		mockMvc.perform(post("/customers/register-customer").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isCreated()).andDo(print());
 	}
-	
+
 	@Test
 	void shouldUpdateCustomerByIdAndReturnStatus200() throws Exception {
 		loadCustomers();
-		
-		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("06199835077", "nome2", "email2@gmail.com", "81911111112",
-				CustomerType.PF);
+
+		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("06199835077", "nome2", "email2@gmail.com",
+				"81911111112", CustomerType.PF);
 
 		String object = objectMapper.writeValueAsString(customerRequestDTO);
 
-		mockMvc.perform(put("/customers/update-customer-by-id").queryParam("id", id).contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(put("/customers/update-customer-by-id").queryParam("id", id)
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
+				.andExpect(status().isOk()).andDo(print());
+	}
+
+	@Test
+	void shouldSearchCustomerByDocumentAndReturnStatus200() throws Exception {
+		loadCustomers();
+
+		mockMvc.perform(get("/customers/search-customer-by-document").queryParam("document", document))
+				.andExpect(status().isOk()).andDo(print());
 	}
 
 	void loadCustomers() {
-		Customer customer = new Customer(Generators.timeBasedEpochRandomGenerator().toString(),"52026255024", "nome1", "email1@gmail.com",
-				"81911111111", CustomerType.PF, null);
-		
-		id = customerRepository.save(customer).getId();
+		Customer customer = new Customer(Generators.timeBasedEpochRandomGenerator().generate().toString(), "52026255024", "nome1",
+				"email1@gmail.com", "81911111111", CustomerType.PF, null);
+
+		customer = customerRepository.save(customer);
+
+		id = customer.getId();
+
+		document = customer.getDocument();
 	}
 }

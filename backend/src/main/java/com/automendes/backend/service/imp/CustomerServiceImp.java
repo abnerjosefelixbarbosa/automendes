@@ -40,4 +40,9 @@ public class CustomerServiceImp implements CustomerService {
 		
 		return customerRepository.save(customerFound);
 	}
+
+	public Customer searchCustomerByDocument(String document) {
+		return customerRepository.findByDocument(document)
+				.orElseThrow(() -> new NotFoundException("Documento deve existir."));
+	}
 }

@@ -6,4 +6,6 @@ public interface CustomerService {
 	Customer registerCustomer(Customer customer);
 	
 	Customer updateCustomerById(String id, Customer customer);
+
+	Customer searchCustomerByDocument(String document);
 }
