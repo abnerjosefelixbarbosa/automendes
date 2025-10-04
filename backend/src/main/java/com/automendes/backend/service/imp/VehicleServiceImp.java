@@ -1,6 +1,8 @@
 package com.automendes.backend.service.imp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.automendes.backend.entity.Model;
@@ -35,5 +37,9 @@ public class VehicleServiceImp implements VehicleService {
 		vehicle.setModel(model);
 		
 		return vehicleRepository.save(vehicle);
+	}
+
+	public Page<Vehicle> listVehicles(Pageable pageable) {
+		return vehicleRepository.findAll(pageable);
 	}
 }
