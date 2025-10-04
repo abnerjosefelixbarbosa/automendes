@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VehicleRequestDTO {
-	@NotNull(message = "Placa deve ser obrigatório.")
 	@Size(message = "Placa deve ter no máximo 20 caracteres.", max = 20)
 	private String plate;
 	@NotNull(message = "Nome do modelo deve ser obrigatório.")

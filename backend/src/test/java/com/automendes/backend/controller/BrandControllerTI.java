@@ -76,7 +76,7 @@ public class BrandControllerTI {
 
 	void loadBrands() {
 		Brand brand1 = new Brand(Generators.timeBasedEpochRandomGenerator().generate().toString(), "nome1", null);
-
+ 
 		id = brandRepository.save(brand1).getId();
 	}
 }
