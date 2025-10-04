@@ -7,6 +7,8 @@ import com.automendes.backend.entity.Vehicle;
 
 public interface VehicleService {
 	Vehicle registerVehicle(Vehicle vehicle);
+	
+	Vehicle updateVehicleById(String id, Vehicle vehicle);
 
 	Page<Vehicle> listVehicles(Pageable pageable);
 }

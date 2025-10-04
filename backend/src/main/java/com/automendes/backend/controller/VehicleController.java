@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,10 +39,18 @@ public class VehicleController {
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
+	@PutMapping(value = "/update-vehicle-by-id")
+	public ResponseEntity<VehicleResponseDTO> updateVehicleById(@RequestParam String id, @Valid @RequestBody VehicleRequestDTO dto) {
+		Vehicle vehicle = vehicleService.updateVehicleById(id, vehicleMapper.toVehicle(dto));
+
+		return ResponseEntity.status(HttpStatus.OK).body(vehicleMapper.toVehicleResponseDTO(vehicle));
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = "/list-vehicles")
 	public ResponseEntity<Page<VehicleResponseDTO>> listVehicles(Pageable pageable) {
 		Page<Vehicle> page = vehicleService.listVehicles(pageable);
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(page.map(vehicleMapper::toVehicleResponseDTO));
+		return ResponseEntity.status(HttpStatus.OK).body(page.map(vehicleMapper::toVehicleResponseDTO));
 	}
 }

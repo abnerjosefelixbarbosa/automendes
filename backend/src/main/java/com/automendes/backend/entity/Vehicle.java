@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class Vehicle {
 	@Id
 	private String id;
-	@Column(nullable = false, unique = true, length = 20)
+	@Column(length = 20)
 	private String plate;
 	@Column(nullable = false, scale = 2)
 	private BigDecimal price;

@@ -1,5 +1,6 @@
 package com.automendes.backend.service.imp;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,15 +29,32 @@ public class VehicleServiceImp implements VehicleService {
 	@Transactional
 	public Vehicle registerVehicle(Vehicle vehicle) {
 		vehicleValidation.validateVehicleRegistration(vehicle);
-		
+
 		Model model = modelRepository.findByName(vehicle.getModel().getName())
 				.orElseThrow(() -> new NotFoundException("Nome do modelo deve existir."));
-		
+
 		vehicle.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
-		
+
 		vehicle.setModel(model);
-		
+
 		return vehicleRepository.save(vehicle);
+	}
+
+	@Transactional
+	public Vehicle updateVehicleById(String id, Vehicle vehicle) {
+		vehicleValidation.validateVehicleRegistration(vehicle);
+
+		Model model = modelRepository.findByName(vehicle.getModel().getName())
+				.orElseThrow(() -> new NotFoundException("Nome do modelo deve existir."));
+
+		vehicle.setModel(model);
+
+		Vehicle vehicleFound = vehicleRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Id deve existir."));
+		
+		BeanUtils.copyProperties(vehicle, vehicleFound, "id");
+
+		return vehicleFound;
 	}
 
 	public Page<Vehicle> listVehicles(Pageable pageable) {
