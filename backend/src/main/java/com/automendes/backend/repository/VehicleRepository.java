@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.automendes.backend.entity.Vehicle;
 
 public interface VehicleRepository extends JpaRepository<Vehicle, String> {
-
+	boolean existsByPlate(String plate);
 }
