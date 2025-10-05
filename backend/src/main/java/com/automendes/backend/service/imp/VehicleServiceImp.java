@@ -42,7 +42,7 @@ public class VehicleServiceImp implements VehicleService {
 
 	@Transactional
 	public Vehicle updateVehicleById(String id, Vehicle vehicle) {
-		vehicleValidation.validateVehicleRegistration(vehicle);
+		vehicleValidation.validateVehicleUpdate(vehicle);
 
 		Model model = modelRepository.findByName(vehicle.getModel().getName())
 				.orElseThrow(() -> new NotFoundException("Nome do modelo deve existir."));
