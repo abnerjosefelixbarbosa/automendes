@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BrandRequestDTO {
-	@NotNull(message = "Nome não deve ser nulo.")
-	@NotEmpty(message = "Nome não deve ser vázio.")
+	@NotNull(message = "Nome deve ser obrigatório.")
+	@NotEmpty(message = "Nome deve ser obrigatório.")
 	@Size(max = 30, message = "Nome deve ter no máximo 30 caracteres.")
 	private String name;
 }
