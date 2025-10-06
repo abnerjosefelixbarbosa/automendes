@@ -36,7 +36,7 @@ class ModelControllerTI {
 	private ModelRepository modelRepository;
 	@Autowired
 	private BrandRepository brandRepository;
-	private String id;
+	private Model model;
 	private Brand brand;
 
 	@BeforeEach
@@ -53,50 +53,182 @@ class ModelControllerTI {
 
 	@Test
 	void shouldRegisterModelAndReturnStatus201() throws Exception {
-		loadBrand();
+		loadBrands();
 		
 		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("nome1", "nome1");
 
 		String object = objectMapper.writeValueAsString(modelRequestDTO);
 
 		mockMvc.perform(post("/models/register-model").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isCreated()).andDo(print());
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isCreated())
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterModelWithEmptyNameAndReturnStatus400() throws Exception {
+		loadBrands();
+		
+		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("", "nome1");
+
+		String object = objectMapper.writeValueAsString(modelRequestDTO);
+
+		mockMvc.perform(post("/models/register-model").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterModelWithNullNameAndReturnStatus400() throws Exception {
+		loadBrands();
+		
+		ModelRequestDTO modelRequestDTO = new ModelRequestDTO(null, "nome1");
+
+		String object = objectMapper.writeValueAsString(modelRequestDTO);
+
+		mockMvc.perform(post("/models/register-model").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterModelWithNameSize31AndReturnStatus400() throws Exception {
+		loadBrands();
+		
+		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("nome111111111111111111111111111", "nome1");
+
+		String object = objectMapper.writeValueAsString(modelRequestDTO);
+
+		mockMvc.perform(post("/models/register-model").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterModelWithExistentNameAndReturnStatus400() throws Exception {
+		loadBrands();
+		
+		loadModels();
+		
+		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("nome1", "nome1");
+
+		String object = objectMapper.writeValueAsString(modelRequestDTO);
+
+		mockMvc.perform(post("/models/register-model").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterModelWithNullModelNameAndReturnStatus400() throws Exception {
+		loadBrands();
+		
+		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("nome1", null);
+
+		String object = objectMapper.writeValueAsString(modelRequestDTO);
+
+		mockMvc.perform(post("/models/register-model").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterModelWithEmptyModelNameAndReturnStatus400() throws Exception {
+		loadBrands();
+		
+		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("nome1", "");
+
+		String object = objectMapper.writeValueAsString(modelRequestDTO);
+
+		mockMvc.perform(post("/models/register-model").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterModelWithModelNameSize31AndReturnStatus400() throws Exception {
+		loadBrands();
+		
+		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("nome1", "nome111111111111111111111111111");
+
+		String object = objectMapper.writeValueAsString(modelRequestDTO);
+
+		mockMvc.perform(post("/models/register-model").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterModelWithNotExistentModelNameAndReturnStatus404() throws Exception {
+		loadBrands();
+		
+		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("nome1", "nome2");
+
+		String object = objectMapper.writeValueAsString(modelRequestDTO);
+
+		mockMvc.perform(post("/models/register-model").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isNotFound())
+		.andDo(print());
 	}
 
 	@Test
 	void shouldUpdateModelByIdAndReturnStatus200() throws Exception {
-		loadBrand();
+		loadBrands();
 		
-		loadModel();
+		loadModels();
 		
 		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("nome2", "nome1");
 
 		String object = objectMapper.writeValueAsString(modelRequestDTO);
 
-		mockMvc.perform(put("/models/update-model-by-id").queryParam("id", id + "")
+		mockMvc.perform(put("/models/update-model-by-id").queryParam("id", model.getId() + "")
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
-				.andExpect(status().isOk()).andDo(print());
+		.andExpect(status().isOk())
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldUpdateModelByIdWithNotExistentIdAndReturnStatus404() throws Exception {
+		loadBrands();
+		
+		loadModels();
+		
+		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("nome2", "nome1");
+
+		String object = objectMapper.writeValueAsString(modelRequestDTO);
+
+		mockMvc.perform(put("/models/update-model-by-id").queryParam("id", model.getId() + "1")
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
+				.andExpect(status().isNotFound()).andDo(print());
 	}
 
 	@Test
 	void shouldListModelsAndReturnStatus200() throws Exception {
-		loadBrand();
+		loadBrands();
 		
-		loadModel();
+		loadModels();
 
 		mockMvc.perform(get("/models/list-models")).andExpect(status().isOk()).andDo(print());
 	}
 
-	void loadBrand() {
+	void loadBrands() {
 		Brand brand1 = new Brand(Generators.timeBasedEpochRandomGenerator().generate().toString(), "nome1", null);
 
 		brand = brandRepository.save(brand1);
 	}
 
-	void loadModel() {
+	void loadModels() {
 		Model model1 = new Model(Generators.timeBasedEpochRandomGenerator().generate().toString(), "nome1", brand,
 				null);
 
-		id = modelRepository.save(model1).getId();
+		model = modelRepository.save(model1);
 	}
 }
