@@ -28,6 +28,6 @@ public class Model {
 	@ManyToOne
 	@JoinColumn(nullable = false, name = "brand_id")
 	private Brand brand;
-	@OneToMany(mappedBy = "model", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "model", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<Vehicle> vehicles;
 }

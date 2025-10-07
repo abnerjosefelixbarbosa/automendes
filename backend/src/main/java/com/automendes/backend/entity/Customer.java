@@ -33,6 +33,6 @@ public class Customer {
 	private String phone;
 	@Column(nullable = false)
 	private CustomerType customerType;
-	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<Sale> sales;
 }

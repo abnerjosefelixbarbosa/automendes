@@ -38,6 +38,6 @@ public class Vehicle {
 	@ManyToOne
 	@JoinColumn(nullable = false, name = "model_id")
 	private Model model;
-	@OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<SaleVehicle> saleVehicles;
 }

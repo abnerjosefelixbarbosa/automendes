@@ -13,18 +13,14 @@ public class BrandValidationImp implements BrandValidation {
 	private BrandRepository brandRepository;
 
 	public void validateBrandRegistration(Brand brand) {
-		boolean isNameExists = brandRepository.existsByName(brand.getName());
-
-		if (isNameExists) {
-			throw new RuntimeException("Nome deve ser único.");
+		if (brandRepository.existsByName(brand.getName())) {
+			throw new RuntimeException("Nome não deve ser repetido.");
 		}
 	}
 
 	public void validateBrandUpdate(Brand brand) {
-		boolean isNameExists = brandRepository.existsByName(brand.getName());
-
-		if (isNameExists) {
-			throw new RuntimeException("Nome deve ser único.");
+		if (brandRepository.existsByName(brand.getName())) {
+			throw new RuntimeException("Nome não deve ser repetido.");
 		}
 	}
 }

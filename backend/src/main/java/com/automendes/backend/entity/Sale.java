@@ -44,6 +44,6 @@ public class Sale {
 	@ManyToOne
 	@JoinColumn(nullable = false, name = "employee_id")
 	private Employee employee;
-	@OneToMany(mappedBy = "sale", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "sale", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<SaleVehicle> saleVehicles;
 }
