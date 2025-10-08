@@ -46,9 +46,4 @@ public class BrandServiceImp implements BrandService {
 	public Page<Brand> listBrands(Pageable pageable) {
 		return brandRepository.findAll(pageable);
 	}
-
-	public Brand findBrandByName(String name) {
-		return brandRepository.findByName(name)
-				.orElseThrow(() -> new NotFoundException("Nome da marca deve ser existente."));
-	}
 }

@@ -14,7 +14,7 @@ public class ModelValidationImp implements ModelValidation {
 
 	public void validateModel(Model model) {
 		if (modelRepository.existsByName(model.getName())) {
-			throw new RuntimeException("Nome deve ser único.");
+			throw new RuntimeException("Nome não deve ser repetido.");
 		}
 	}
 }

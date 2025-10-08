@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.automendes.backend.entity.Brand;
 import com.automendes.backend.entity.Model;
 import com.automendes.backend.exception.NotFoundException;
+import com.automendes.backend.repository.BrandRepository;
 import com.automendes.backend.repository.ModelRepository;
-import com.automendes.backend.service.BrandService;
 import com.automendes.backend.service.ModelService;
 import com.automendes.backend.validation.ModelValidation;
 import com.fasterxml.uuid.Generators;
@@ -22,7 +22,7 @@ public class ModelServiceImp implements ModelService {
 	@Autowired
 	private ModelRepository modelRepository;
 	@Autowired
-	private BrandService brandService;
+	private BrandRepository brandRepository;
 	@Autowired
 	private ModelValidation modelValidation; 
 
@@ -32,7 +32,8 @@ public class ModelServiceImp implements ModelService {
 		
 		model.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
 		
-        Brand brand = brandService.findBrandByName(model.getBrand().getName()); 
+        Brand brand = brandRepository.findByName(model.getBrand().getName())
+        		.orElseThrow(() -> new NotFoundException("Nome da marca deve ser existente.")); 
 		
 		model.setBrand(brand);
 		
@@ -43,8 +44,9 @@ public class ModelServiceImp implements ModelService {
 	public Model updateModelById(String id, Model model) {
 		modelValidation.validateModel(model);
 		
-        Brand brand = brandService.findBrandByName(model.getBrand().getName()); 
-		
+		Brand brand = brandRepository.findByName(model.getBrand().getName())
+        		.orElseThrow(() -> new NotFoundException("Nome da marca deve ser existente.")); 
+        
 		model.setBrand(brand);
 		
 		Model modelFound = modelRepository.findById(id)

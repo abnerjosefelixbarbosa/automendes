@@ -11,6 +11,4 @@ public interface BrandService {
 	Brand updateBrandById(String id, Brand brand);
 	
 	Page<Brand> listBrands(Pageable pageable); 
-	
-	Brand findBrandByName(String name);
 }
