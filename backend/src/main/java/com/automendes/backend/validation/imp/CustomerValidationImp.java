@@ -15,23 +15,7 @@ public class CustomerValidationImp implements CustomerValidation {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
-	public void validateCustomerRegistration(Customer customer) {
-		if (customerRepository.existsByDocumentOrNameOrEmailOrPhone(customer.getDocument(), customer.getName(), customer.getEmail(), customer.getPhone())) {
-			throw new RuntimeException("Documento, nome, email ou telefone deve ser único.");
-		}
-		
-		if (customer.getCustomerType().ordinal() == 0) {
-			if (!isValidCPF(customer.getDocument())) {
-				throw new RuntimeException("Documento cpf deve ser valido.");
-			}
-		} else {
-			if (!isValidCNPJ(customer.getDocument())) {
-				throw new RuntimeException("Documento cnpj deve ser valido.");
-			}
-		}
-	}
-	
-	public void validateCustomerUpdate(Customer customer) {
+	public void validateCustomer(Customer customer) {
 		if (customerRepository.existsByDocumentOrNameOrEmailOrPhone(customer.getDocument(), customer.getName(), customer.getEmail(), customer.getPhone())) {
 			throw new RuntimeException("Documento, nome, email ou telefone deve ser único.");
 		}

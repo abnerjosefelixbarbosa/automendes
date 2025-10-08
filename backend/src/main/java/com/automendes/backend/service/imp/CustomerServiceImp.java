@@ -22,7 +22,7 @@ public class CustomerServiceImp implements CustomerService {
 
 	@Transactional
 	public Customer registerCustomer(Customer customer) {
-		customerValidation.validateCustomerRegistration(customer);
+		customerValidation.validateCustomer(customer);
 
 		customer.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
 
@@ -31,7 +31,7 @@ public class CustomerServiceImp implements CustomerService {
 
 	@Transactional
 	public Customer updateCustomerById(String id, Customer customer) {
-		customerValidation.validateCustomerUpdate(customer);
+		customerValidation.validateCustomer(customer);
 
 		Customer customerFound = customerRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("Id deve existir."));

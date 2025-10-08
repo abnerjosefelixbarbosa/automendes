@@ -28,7 +28,7 @@ public class ModelServiceImp implements ModelService {
 
 	@Transactional
 	public Model registerModel(Model model) {
-		modelValidation.validateRegisterModel(model);
+		modelValidation.validateModel(model);
 		
 		model.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
 		
@@ -41,13 +41,11 @@ public class ModelServiceImp implements ModelService {
 
 	@Transactional
 	public Model updateModelById(String id, Model model) {
-		modelValidation.validateUpdateModel(model);
+		modelValidation.validateModel(model);
 		
         Brand brand = brandService.findBrandByName(model.getBrand().getName()); 
 		
 		model.setBrand(brand);
-		
-		//System.out.println(brand.toString());
 		
 		Model modelFound = modelRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("Id deve ser existente."));
@@ -55,8 +53,6 @@ public class ModelServiceImp implements ModelService {
 		BeanUtils.copyProperties(model, modelFound, "id");
 		
 		return modelRepository.save(modelFound);
-		
-		//return modelRepository.save(null);
 	}
 
 	public Page<Model> listModels(Pageable pageable) {

@@ -12,13 +12,7 @@ public class ModelValidationImp implements ModelValidation {
 	@Autowired
 	private ModelRepository modelRepository;
 
-	public void validateRegisterModel(Model model) {
-		if (modelRepository.existsByName(model.getName())) {
-			throw new RuntimeException("Nome deve ser único.");
-		}
-	}
-
-	public void validateUpdateModel(Model model) {
+	public void validateModel(Model model) {
 		if (modelRepository.existsByName(model.getName())) {
 			throw new RuntimeException("Nome deve ser único.");
 		}

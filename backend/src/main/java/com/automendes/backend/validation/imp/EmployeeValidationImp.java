@@ -12,28 +12,8 @@ public class EmployeeValidationImp implements EmployeeValidation {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
-	public void validateEmployeeRegistration(Employee employee) {
-		boolean isExistsNameOrEmailOrMatriculationOrPlone = employeeRepository.existsByNameOrEmailOrMatriculationOrPhone(employee.getName(), employee.getEmail(), employee.getMatriculation(), employee.getPhone());
-	    
-		if (isExistsNameOrEmailOrMatriculationOrPlone) {
-			throw new RuntimeException("Nome, email, matrícula e telefone deve ser únicos.");
-		}
-		
-		if (employee.getEmployeeType().ordinal() == 2) {
-			if (employee.getCommission() == null) {
-				throw new RuntimeException("Comissão deve ser obrigatória.");
-			}
-			
-			if (employee.getCommission().scale() != 2) {
-				throw new RuntimeException("Comissão deve ter 2 dígitos de precisão.");
-			}
-		}
-	}
-
-	public void validateEmployeeUpdate(Employee employee) {
-        boolean isExistsNameOrEmailOrMatriculationOrPlone = employeeRepository.existsByNameOrEmailOrMatriculationOrPhone(employee.getName(), employee.getEmail(), employee.getMatriculation(), employee.getPhone());
-	    
-		if (isExistsNameOrEmailOrMatriculationOrPlone) {
+	public void validateEmployee(Employee employee) {
+		if (employeeRepository.existsByNameOrEmailOrMatriculationOrPhone(employee.getName(), employee.getEmail(), employee.getMatriculation(), employee.getPhone())) {
 			throw new RuntimeException("Nome, email, matrícula e telefone deve ser únicos.");
 		}
 		

@@ -12,13 +12,7 @@ public class BrandValidationImp implements BrandValidation {
 	@Autowired
 	private BrandRepository brandRepository;
 
-	public void validateBrandRegistration(Brand brand) {
-		if (brandRepository.existsByName(brand.getName())) {
-			throw new RuntimeException("Nome não deve ser repetido.");
-		}
-	}
-
-	public void validateBrandUpdate(Brand brand) {
+	public void validateBrand(Brand brand) {
 		if (brandRepository.existsByName(brand.getName())) {
 			throw new RuntimeException("Nome não deve ser repetido.");
 		}

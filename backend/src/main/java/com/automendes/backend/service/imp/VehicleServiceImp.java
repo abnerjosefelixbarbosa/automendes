@@ -28,7 +28,7 @@ public class VehicleServiceImp implements VehicleService {
 
 	@Transactional
 	public Vehicle registerVehicle(Vehicle vehicle) {
-		vehicleValidation.validateVehicleRegistration(vehicle);
+		vehicleValidation.validateVehicle(vehicle);
 
 		Model model = modelRepository.findByName(vehicle.getModel().getName())
 				.orElseThrow(() -> new NotFoundException("Nome do modelo deve existir."));
@@ -42,7 +42,7 @@ public class VehicleServiceImp implements VehicleService {
 
 	@Transactional
 	public Vehicle updateVehicleById(String id, Vehicle vehicle) {
-		vehicleValidation.validateVehicleUpdate(vehicle);
+		vehicleValidation.validateVehicle(vehicle);
 
 		Model model = modelRepository.findByName(vehicle.getModel().getName())
 				.orElseThrow(() -> new NotFoundException("Nome do modelo deve existir."));
@@ -54,7 +54,7 @@ public class VehicleServiceImp implements VehicleService {
 		
 		BeanUtils.copyProperties(vehicle, vehicleFound, "id");
 
-		return vehicleFound;
+		return vehicleRepository.save(vehicleFound);
 	}
 
 	public Page<Vehicle> listVehicles(Pageable pageable) {

@@ -12,23 +12,7 @@ public class VehicleValidationImp implements VehicleValidation {
 	@Autowired
 	private VehicleRepository vehicleRepository;
 	
-	public void validateVehicleRegistration(Vehicle vehicle) {
-		if (vehicle.getPrice().scale() != 2) {
-			throw new RuntimeException("Preço deve ter 2 digitos de precisão.");
-		}
-		
-		if (vehicle.getPrice().toString().equals("0.00")) {
-			throw new RuntimeException("Preço não deve ser 0.00");
-		}
-		
-		if (!vehicle.getPlate().equals(null) && !vehicle.getPlate().isEmpty()) {
-			if (vehicleRepository.existsByPlate(vehicle.getPlate())) {
-				throw new RuntimeException("Placa deve ser único.");
-			}
-		}
-	}
-
-	public void validateVehicleUpdate(Vehicle vehicle) {
+	public void validateVehicle(Vehicle vehicle) {
 		if (vehicle.getPrice().scale() != 2) {
 			throw new RuntimeException("Preço deve ter 2 digitos de precisão.");
 		}

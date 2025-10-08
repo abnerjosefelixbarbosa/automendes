@@ -24,7 +24,7 @@ public class EmployeeServiceImp implements EmployeeService {
 
 	@Transactional
 	public Employee registerEmployee(Employee employee) {
-		employeeValidation.validateEmployeeRegistration(employee);
+		employeeValidation.validateEmployee(employee);
 		
 		employee.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
 
@@ -33,7 +33,7 @@ public class EmployeeServiceImp implements EmployeeService {
 
 	@Transactional
 	public Employee updateEmployeeById(String id, Employee employee) {
-		employeeValidation.validateEmployeeUpdate(employee);
+		employeeValidation.validateEmployee(employee);
 		
 		Employee employeeFound = employeeRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("Funcionário deve ser existente."));

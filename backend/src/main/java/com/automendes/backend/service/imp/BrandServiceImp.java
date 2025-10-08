@@ -24,7 +24,7 @@ public class BrandServiceImp implements BrandService {
 
 	@Transactional
 	public Brand registerBrand(Brand brand) {
-		brandValidation.validateBrandRegistration(brand);
+		brandValidation.validateBrand(brand);
 
 		brand.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
 
@@ -33,7 +33,7 @@ public class BrandServiceImp implements BrandService {
 
 	@Transactional
 	public Brand updateBrandById(String id, Brand brand) {
-		brandValidation.validateBrandUpdate(brand);
+		brandValidation.validateBrand(brand);
 
 		Brand brandFound = brandRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("Id deve ser existente."));
