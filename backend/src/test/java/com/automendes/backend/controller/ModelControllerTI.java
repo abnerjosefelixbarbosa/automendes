@@ -6,6 +6,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -220,15 +223,23 @@ class ModelControllerTI {
 	}
 
 	void loadBrands() {
-		Brand brand1 = new Brand(Generators.timeBasedEpochRandomGenerator().generate().toString(), "nome1", null);
+		List<Brand> brands = new ArrayList<>();
 
-		brand = brandRepository.save(brand1);
+		brands.add(new Brand(Generators.timeBasedEpochRandomGenerator().generate().toString(), "nome1", null));
+
+		brandRepository.saveAll(brands);
+
+		brand = brands.get(0);
 	}
 
 	void loadModels() {
-		Model model1 = new Model(Generators.timeBasedEpochRandomGenerator().generate().toString(), "nome1", brand,
-				null);
-
-		model = modelRepository.save(model1);
+		List<Model> models = new ArrayList<>();
+		
+		models.add(new Model(Generators.timeBasedEpochRandomGenerator().generate().toString(), "nome1", brand,
+				null));
+		
+		modelRepository.saveAll(models);
+		
+		model = models.get(0);
 	}
 }
