@@ -23,7 +23,7 @@ public class VehicleValidationImp implements VehicleValidation {
 		
 		if (!vehicle.getPlate().equals(null) && !vehicle.getPlate().isEmpty()) {
 			if (vehicleRepository.existsByPlate(vehicle.getPlate())) {
-				throw new RuntimeException("Placa deve ser único.");
+				throw new RuntimeException("Placa não deve ser repetida.");
 			}
 		}
 	}

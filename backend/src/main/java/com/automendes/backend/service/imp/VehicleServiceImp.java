@@ -31,7 +31,7 @@ public class VehicleServiceImp implements VehicleService {
 		vehicleValidation.validateVehicle(vehicle);
 
 		Model model = modelRepository.findByName(vehicle.getModel().getName())
-				.orElseThrow(() -> new NotFoundException("Nome do modelo deve existir."));
+				.orElseThrow(() -> new NotFoundException("Nome do modelo deve ser existente."));
 
 		vehicle.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
 
@@ -45,12 +45,12 @@ public class VehicleServiceImp implements VehicleService {
 		vehicleValidation.validateVehicle(vehicle);
 
 		Model model = modelRepository.findByName(vehicle.getModel().getName())
-				.orElseThrow(() -> new NotFoundException("Nome do modelo deve existir."));
+				.orElseThrow(() -> new NotFoundException("Nome do modelo deve ser existente."));
 
 		vehicle.setModel(model);
 
 		Vehicle vehicleFound = vehicleRepository.findById(id)
-				.orElseThrow(() -> new NotFoundException("Id deve existir."));
+				.orElseThrow(() -> new NotFoundException("Id deve ser existente."));
 		
 		BeanUtils.copyProperties(vehicle, vehicleFound, "id");
 

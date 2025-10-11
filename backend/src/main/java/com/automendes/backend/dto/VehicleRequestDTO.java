@@ -16,16 +16,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VehicleRequestDTO {
-	@Size(message = "Placa deve ter no máximo 20 caracteres.", max = 20)
+	@Size(message = "Placa não deve ter mais de 20 caracteres.", max = 20)
 	private String plate;
-	@NotNull(message = "Nome do modelo deve ser obrigatório.")
-	@NotEmpty(message = "Nome do modelo deve ser obrigatório.")
-	@Size(message = "Nome do modelo deve ter no máximo 30 caracteres.", max = 30)
+	@NotNull(message = "Nome do modelo não deve ser nulo.")
+	@NotEmpty(message = "Nome do modelo não deve ser vazio.")
+	@Size(message = "Nome do modelo não deve ter mais de 30 caracteres.", max = 30)
 	private String modelName;
-	@NotNull(message = "Preço deve ser obrigatório.")
+	@NotNull(message = "Preço não deve ser nulo.")
 	private BigDecimal price;
-	@NotNull(message = "Tipo de câmbio deve ser obrigatório.")
+	@NotNull(message = "Tipo de câmbio não deve ser nulo.")
 	private BoxgearType boxgearType;
-	@NotNull(message = "Tipo de veículo deve ser obrigatório.")
+	@NotNull(message = "Tipo de veículo não deve ser nulo.")
 	private VehicleType vehicleType;
 }
