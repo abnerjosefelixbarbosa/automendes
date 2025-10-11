@@ -18,7 +18,7 @@ public class VehicleValidationImp implements VehicleValidation {
 		}
 		
 		if (vehicle.getPrice().toString().equals("0.00")) {
-			throw new RuntimeException("Preço não deve ser 0.00");
+			throw new RuntimeException("Preço não deve ser 0.");
 		}
 		
 		if (!vehicle.getPlate().equals(null) && !vehicle.getPlate().isEmpty()) {
