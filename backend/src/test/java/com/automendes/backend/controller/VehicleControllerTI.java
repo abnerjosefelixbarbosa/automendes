@@ -70,8 +70,10 @@ public class VehicleControllerTI {
 		loadBrands();
 
 		loadModels();
+		
+		loadVehicles();
 
-		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("", "nome1", new BigDecimal("1500.00"),
+		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("A1-1112", "nome1", new BigDecimal("1500.00"),
 				BoxgearType.AUTO, VehicleType.CAR);
 
 		String object = objectMapper.writeValueAsString(vehicleRequestDTO);
@@ -90,7 +92,7 @@ public class VehicleControllerTI {
 		
 		loadVehicles();
 
-		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("A1-1111", "nome1", new BigDecimal("1500.00"),
+		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("A1-1112", "nome1", new BigDecimal("1500.00"),
 				BoxgearType.AUTO, VehicleType.CAR);
 
 		String object = objectMapper.writeValueAsString(vehicleRequestDTO);
@@ -137,7 +139,7 @@ public class VehicleControllerTI {
 	void loadVehicles() {
 		List<Vehicle> vehicles = new ArrayList<>();
 
-		vehicles.add(new Vehicle(Generators.timeBasedEpochRandomGenerator().generate().toString(), "",
+		vehicles.add(new Vehicle(Generators.timeBasedEpochRandomGenerator().generate().toString(), "A1-1111",
 				new BigDecimal("1500.00"), BoxgearType.AUTO, VehicleType.CAR, model, null));
 
 		vehicleRepository.saveAll(vehicles);

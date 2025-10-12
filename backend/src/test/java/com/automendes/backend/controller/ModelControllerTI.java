@@ -58,7 +58,9 @@ class ModelControllerTI {
 	void shouldRegisterModelAndReturnStatus201() throws Exception {
 		loadBrands();
 		
-		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("nome1", "nome1");
+		loadModels();
+		
+		ModelRequestDTO modelRequestDTO = new ModelRequestDTO("nome2", "nome1");
 
 		String object = objectMapper.writeValueAsString(modelRequestDTO);
 
@@ -90,7 +92,9 @@ class ModelControllerTI {
 		
 		loadModels();
 
-		mockMvc.perform(get("/models/list-models")).andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(get("/models/list-models"))
+		.andExpect(status().isOk())
+		.andDo(print());
 	}
 
 	void loadBrands() {

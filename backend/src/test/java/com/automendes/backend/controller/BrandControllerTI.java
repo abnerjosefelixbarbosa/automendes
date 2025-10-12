@@ -49,12 +49,16 @@ public class BrandControllerTI {
 
 	@Test
 	void shouldRegisterBrandAndReturnStatus201() throws Exception {
-		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome1");
+		loadBrands();
+		
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome2");
 
 		String object = objectMapper.writeValueAsString(brandRequestDTO);
 
 		mockMvc.perform(post("/brands/register-brand").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isCreated()).andDo(print());
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isCreated())
+		.andDo(print());
 	}
 
 	@Test
@@ -67,14 +71,17 @@ public class BrandControllerTI {
 
 		mockMvc.perform(put("/brands/update-brand-by-id").queryParam("id", brand.getId() + "")
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
-				.andExpect(status().isOk()).andDo(print());
+		.andExpect(status().isOk())
+		.andDo(print());
 	}
 
 	@Test
 	void shouldListBrandsAndReturnStatus200() throws Exception {
 		loadBrands();
 
-		mockMvc.perform(get("/brands/list-brands")).andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(get("/brands/list-brands"))
+		.andExpect(status().isOk())
+		.andDo(print());
 	}
 
 	void loadBrands() {
