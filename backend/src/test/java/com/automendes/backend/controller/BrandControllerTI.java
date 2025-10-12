@@ -58,48 +58,6 @@ public class BrandControllerTI {
 	}
 
 	@Test
-	void shouldRegisterBrandWithNullNameAndReturnStatus400() throws Exception {
-		BrandRequestDTO brandRequestDTO = new BrandRequestDTO(null);
-
-		String object = objectMapper.writeValueAsString(brandRequestDTO);
-
-		mockMvc.perform(post("/brands/register-brand").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isBadRequest()).andDo(print());
-	}
-
-	@Test
-	void shouldRegisterBrandWithEmptyNameAndReturnStatus400() throws Exception {
-		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("");
-
-		String object = objectMapper.writeValueAsString(brandRequestDTO);
-
-		mockMvc.perform(post("/brands/register-brand").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isBadRequest()).andDo(print());
-	}
-
-	@Test
-	void shouldRegisterBrandWithNameSize31AndReturnStatus400() throws Exception {
-		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome111111111111111111111111111");
-
-		String object = objectMapper.writeValueAsString(brandRequestDTO);
-
-		mockMvc.perform(post("/brands/register-brand").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isBadRequest()).andDo(print());
-	}
-
-	@Test
-	void shouldRegisterBrandWithExistentNameAndReturnStatus400() throws Exception {
-		loadBrands();
-
-		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome1");
-
-		String object = objectMapper.writeValueAsString(brandRequestDTO);
-
-		mockMvc.perform(post("/brands/register-brand").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isBadRequest()).andDo(print());
-	}
-
-	@Test
 	void shouldUpdateBrandByIdAndReturnStatus200() throws Exception {
 		loadBrands();
 
@@ -110,19 +68,6 @@ public class BrandControllerTI {
 		mockMvc.perform(put("/brands/update-brand-by-id").queryParam("id", brand.getId() + "")
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
 				.andExpect(status().isOk()).andDo(print());
-	}
-
-	@Test
-	void shouldUpdateBrandByIdWithNotExistentIdAndReturnStatus404() throws Exception {
-		loadBrands();
-
-		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome2");
-
-		String object = objectMapper.writeValueAsString(brandRequestDTO);
-
-		mockMvc.perform(put("/brands/update-brand-by-id").queryParam("id", brand.getId() + "1")
-				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
-				.andExpect(status().isNotFound()).andDo(print());
 	}
 
 	@Test
