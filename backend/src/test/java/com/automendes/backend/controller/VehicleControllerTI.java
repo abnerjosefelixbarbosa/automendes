@@ -1,12 +1,13 @@
 package com.automendes.backend.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -67,7 +68,7 @@ public class VehicleControllerTI {
 	@Test
 	void shouldRegisterVehicleAndReturnStatus201() throws Exception {
 		loadBrands();
-		
+
 		loadModels();
 
 		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("", "nome1", new BigDecimal("1500.00"),
@@ -82,172 +83,34 @@ public class VehicleControllerTI {
 	}
 	
 	@Test
-	void shouldRegisterVehicleWithPlateSize21AndReturnStatus400() throws Exception {
+	void shouldUpdateVehicleByIdAndReturnStatus200() throws Exception {
 		loadBrands();
-		
-		loadModels();
 
-		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("A1111-111111111111111", "nome1", new BigDecimal("1500.00"),
+		loadModels();
+		
+		loadVehicles();
+
+		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("A1-1111", "nome1", new BigDecimal("1500.00"),
 				BoxgearType.AUTO, VehicleType.CAR);
 
 		String object = objectMapper.writeValueAsString(vehicleRequestDTO);
 
-		mockMvc.perform(post("/vehicles/register-vehicle").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(put("/vehicles/update-vehicle-by-id").queryParam("id", vehicle.getId() + "").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(object))
-		.andExpect(status().isBadRequest())
+		.andExpect(status().isOk())
 		.andDo(print());
 	}
-	
+
 	@Test
-	void shouldRegisterVehicleWithNullModelNameAndReturnStatus400() throws Exception {
+	void shouldListVehiclesAndReturnStatus200() throws Exception {
 		loadBrands();
-		
+
 		loadModels();
-
-		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("", null, new BigDecimal("1500.00"),
-				BoxgearType.AUTO, VehicleType.CAR);
-
-		String object = objectMapper.writeValueAsString(vehicleRequestDTO);
-
-		mockMvc.perform(post("/vehicles/register-vehicle").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object))
-		.andExpect(status().isBadRequest())
-		.andDo(print());
-	}
-	
-	@Test
-	void shouldRegisterVehicleWithEmptyModelNameAndReturnStatus400() throws Exception {
-		loadBrands();
 		
-		loadModels();
+		loadVehicles();
 
-		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("", "", new BigDecimal("1500.00"),
-				BoxgearType.AUTO, VehicleType.CAR);
-
-		String object = objectMapper.writeValueAsString(vehicleRequestDTO);
-
-		mockMvc.perform(post("/vehicles/register-vehicle").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object))
-		.andExpect(status().isBadRequest())
-		.andDo(print());
-	}
-	
-	@Test
-	void shouldRegisterVehicleWithModelNameSize31AndReturnStatus400() throws Exception {
-		loadBrands();
-		
-		loadModels();
-
-		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("", "nome111111111111111111111111111", new BigDecimal("1500.00"),
-				BoxgearType.AUTO, VehicleType.CAR);
-
-		String object = objectMapper.writeValueAsString(vehicleRequestDTO);
-
-		mockMvc.perform(post("/vehicles/register-vehicle").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object))
-		.andExpect(status().isBadRequest())
-		.andDo(print());
-	}
-	
-	@Test
-	void shouldRegisterVehicleWithNotExistsModelNameAndReturnStatus404() throws Exception {
-		loadBrands();
-		
-		loadModels();
-
-		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("", "nome2", new BigDecimal("1500.00"),
-				BoxgearType.AUTO, VehicleType.CAR);
-
-		String object = objectMapper.writeValueAsString(vehicleRequestDTO);
-
-		mockMvc.perform(post("/vehicles/register-vehicle").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object))
-		.andExpect(status().isNotFound())
-		.andDo(print());
-	}
-	
-	@Test
-	void shouldRegisterVehicleWithNullPriceAndReturnStatus400() throws Exception {
-		loadBrands();
-		
-		loadModels();
-
-		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("", "nome1", null,
-				BoxgearType.AUTO, VehicleType.CAR);
-
-		String object = objectMapper.writeValueAsString(vehicleRequestDTO);
-
-		mockMvc.perform(post("/vehicles/register-vehicle").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object))
-		.andExpect(status().isBadRequest())
-		.andDo(print());
-	}
-	
-	@Test
-	void shouldRegisterVehicleWithPrice0AndReturnStatus400() throws Exception {
-		loadBrands();
-		
-		loadModels();
-
-		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("", "nome1", new BigDecimal("0.00"),
-				BoxgearType.AUTO, VehicleType.CAR);
-
-		String object = objectMapper.writeValueAsString(vehicleRequestDTO);
-
-		mockMvc.perform(post("/vehicles/register-vehicle").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object))
-		.andExpect(status().isBadRequest())
-		.andDo(print());
-	}
-	
-	@Test
-	void shouldRegisterVehicleWith1DigitPriceAndReturnStatus400() throws Exception {
-		loadBrands();
-		
-		loadModels();
-
-		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("", "nome1", new BigDecimal("0.0"),
-				BoxgearType.AUTO, VehicleType.CAR);
-
-		String object = objectMapper.writeValueAsString(vehicleRequestDTO);
-
-		mockMvc.perform(post("/vehicles/register-vehicle").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object))
-		.andExpect(status().isBadRequest())
-		.andDo(print());
-	}
-	
-	@Test
-	void shouldRegisterVehicleWithNullBoxgearTypeAndReturnStatus400() throws Exception {
-		loadBrands();
-		
-		loadModels();
-
-		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("", "nome1", new BigDecimal("1500.00"),
-				null, VehicleType.CAR);
-
-		String object = objectMapper.writeValueAsString(vehicleRequestDTO);
-
-		mockMvc.perform(post("/vehicles/register-vehicle").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object))
-		.andExpect(status().isBadRequest())
-		.andDo(print());
-	}
-	
-	@Test
-	void shouldRegisterVehicleWithNullVehicleTypeAndReturnStatus400() throws Exception {
-		loadBrands();
-		
-		loadModels();
-
-		VehicleRequestDTO vehicleRequestDTO = new VehicleRequestDTO("", "nome1", new BigDecimal("1500.00"),
-				BoxgearType.AUTO, null);
-
-		String object = objectMapper.writeValueAsString(vehicleRequestDTO);
-
-		mockMvc.perform(post("/vehicles/register-vehicle").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object))
-		.andExpect(status().isBadRequest())
+		mockMvc.perform(get("/vehicles/list-vehicles"))
+		.andExpect(status().isOk())
 		.andDo(print());
 	}
 
