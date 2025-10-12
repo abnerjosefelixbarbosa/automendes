@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +38,7 @@ class EmployeeControlerIT {
 	private ObjectMapper objectMapper;
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	private String id;
+	private Employee employee;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -50,40 +52,51 @@ class EmployeeControlerIT {
 
 	@Test
 	void shouldRegisterEmployeeAndReturnStatus201() throws Exception {
-		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("nome1", "email1@gmail.com", "1111111111",
-				"81911111111", LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.SELLER);
+		loadEmployees();
+		
+		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("nome2", "email2@gmail.com", "1111111112",
+				"81911111112", LocalDate.now().withYear(1991), null, EmployeeType.MANAGER);
 
 		String object = objectMapper.writeValueAsString(employeeRequestDTO);
 
 		mockMvc.perform(post("/employees/register-employee").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isCreated()).andDo(print());
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isCreated())
+		.andDo(print());
 	}
 
 	@Test
 	void shouldUpdateEmployeeByIdAndReturnStatus200() throws Exception {
-		loadEmployee();
+		loadEmployees();
 
 		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("nome2", "email2@gmail.com", "1111111112",
-				"81911111112", LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.MANAGER);
+				"81911111112", LocalDate.now().withYear(1991), null, EmployeeType.MANAGER);
 
 		String object = objectMapper.writeValueAsString(employeeRequestDTO);
 
-		mockMvc.perform(put("/employees/update-employee-by-id").queryParam("id", id + "").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(put("/employees/update-employee-by-id").queryParam("id", employee.getId() + "").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isOk())
+		.andDo(print());
 	}
 
 	@Test
 	void shouldListEmployeesAndReturnStatus200() throws Exception {
-		loadEmployee();
+		loadEmployees();
 
-		mockMvc.perform(get("/employees/list-employees")).andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(get("/employees/list-employees"))
+		.andExpect(status().isOk())
+		.andDo(print());
 	}
 
-	void loadEmployee() {
-		Employee employee1 = new Employee(Generators.timeBasedEpochRandomGenerator().generate().toString(), "name1", "email1@gmail.com", "1111111111", "81911111111",
-				LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.SELLER, null);
-
+	void loadEmployees() {
+		List<Employee> employees = new ArrayList<>();
 		
-		id = employeeRepository.save(employee1).getId();
+		employees.add(new Employee(Generators.timeBasedEpochRandomGenerator().generate().toString(), "name1", "email1@gmail.com", "1111111111", "81911111111",
+				LocalDate.now().withYear(1991), null, EmployeeType.MANAGER, null));
+
+		employeeRepository.saveAll(employees);
+		
+		employee = employees.get(0);
 	}
 }

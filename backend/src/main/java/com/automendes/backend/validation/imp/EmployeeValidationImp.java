@@ -19,11 +19,19 @@ public class EmployeeValidationImp implements EmployeeValidation {
 		
 		if (employee.getEmployeeType().ordinal() == 2) {
 			if (employee.getCommission() == null) {
-				throw new RuntimeException("Comissão deve ser obrigatória.");
+				throw new RuntimeException("Comissão não deve ser nulo.");
 			}
 			
 			if (employee.getCommission().scale() != 2) {
-				throw new RuntimeException("Comissão deve ter 2 dígitos de precisão.");
+				throw new RuntimeException("Comissão deve ter 2 dígitos depois da virgula.");
+			}
+			
+			if (employee.getCommission().toString().equals("0.00")) {
+				throw new RuntimeException("Comissão não deve ser 0.");
+			}
+		} else {
+			if (employee.getCommission() != null) {
+				throw new RuntimeException("Comissão deve ser nulo.");
 			}
 		}
 	}

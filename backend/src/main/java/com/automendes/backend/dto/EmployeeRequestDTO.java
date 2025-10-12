@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,28 +20,29 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeRequestDTO {
-	@NotEmpty(message = "Nome deve ser obrigatório.")
-	@NotNull(message = "Nome deve ser obrigatório.")
-	@Size(message = "Nome deve ter no máximo 100 caracteres.", max = 100)
+	@NotEmpty(message = "Nome não deve ser vazio.")
+	@NotNull(message = "Nome não deve ser nulo.")
+	@Size(message = "Nome não deve ter mais de 100 caracteres.", max = 100)
 	private String name;
-	@NotEmpty(message = "Email deve ser obrigatório.")
-	@NotNull(message = "Email deve ser obrigatório.")
-	@Size(message = "Email deve ter no máximo 50 caracteres.", max = 50)
+	@NotEmpty(message = "Email não deve ser vazio.")
+	@NotNull(message = "Email não deve ser null.")
+	@Size(message = "Email não deve ter mais de 50 caracteres.", max = 50)
 	@Email(message = "Email deve ser valido.")
 	private String email;
-	@NotEmpty(message = "Matrícula deve ser obrigatória.")
-	@NotNull(message = "Matrícula deve ser obrigatória.")
-	@Size(message = "Matrícula deve ter 10 caracteres.", min = 10, max = 10)
+	@NotEmpty(message = "Matrícula não deve ser vazia.")
+	@NotNull(message = "Matrícula não deve ser null.")
+	@Pattern(message = "Matrícula deve ter 10 caracteres numericos.", regexp = "^\\d{10}$")
+	//@Size(message = "", min = 10, max = 10)
 	private String matriculation;
-	@NotEmpty(message = "Telefone deve ser obrigatório.")
-	@NotNull(message = "Telefone deve ser obrigatório.")
-	@Size(message = "Telefone deve ter no máximo 20 caracteres.")
+	@NotEmpty(message = "Telefone não deve ser vazio.")
+	@NotNull(message = "Telefone não deve ser nulo.")
+	@Size(message = "Telefone não deve ter mais de 20 caracteres.")
 	private String phone;
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@NotNull(message = "Data de nascimento deve ser obrigatória.")
+	@NotNull(message = "Data de nascimento não deve ser nulo.")
 	@Past(message = "Data de nascimeto não deve ser atual.")
 	private LocalDate birthDate;
 	private BigDecimal commission;
-	@NotNull(message = "Tipo do funcionário deve ser obrigatório.")
+	@NotNull(message = "Tipo do funcionário não deve ser nulo.")
 	private EmployeeType employeeType;
 }

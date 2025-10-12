@@ -13,9 +13,9 @@ public class EmployeeMapperImp implements EmployeeMapper {
 		Employee employee = new Employee(null, dto.getName(), dto.getEmail(), dto.getMatriculation(), dto.getPhone(),
 				dto.getBirthDate(), dto.getCommission(), dto.getEmployeeType(), null);
 
-		if (dto.getEmployeeType().ordinal() != 2) {
-			employee.setCommission(null);
-		}
+		//if (dto.getEmployeeType().ordinal() != 2) {
+		//	employee.setCommission(null);
+		//}
 
 		return employee;
 	}
