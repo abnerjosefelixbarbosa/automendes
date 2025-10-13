@@ -29,10 +29,6 @@ public class EmployeeValidationImp implements EmployeeValidation {
 			if (employee.getCommission().toString().equals("0.00")) {
 				throw new RuntimeException("Comissão não deve ser 0.");
 			}
-		} else {
-			if (employee.getCommission() != null) {
-				throw new RuntimeException("Comissão deve ser nulo.");
-			}
 		}
 	}
 }

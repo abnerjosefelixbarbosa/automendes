@@ -54,8 +54,8 @@ class EmployeeControlerIT {
 	void shouldRegisterEmployeeAndReturnStatus201() throws Exception {
 		loadEmployees();
 		
-		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("nome2", "email2@gmail.com", "1111111112",
-				"81911111112", LocalDate.now().withYear(1991), null, EmployeeType.MANAGER);
+		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO(null, "email2@gmail.com", "1111111112",
+				"81911111112", LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.MANAGER);
 
 		String object = objectMapper.writeValueAsString(employeeRequestDTO);
 
@@ -70,7 +70,7 @@ class EmployeeControlerIT {
 		loadEmployees();
 
 		EmployeeRequestDTO employeeRequestDTO = new EmployeeRequestDTO("nome2", "email2@gmail.com", "1111111112",
-				"81911111112", LocalDate.now().withYear(1991), null, EmployeeType.MANAGER);
+				"81911111112", LocalDate.now().withYear(1991), new BigDecimal("10.00"), EmployeeType.MANAGER);
 
 		String object = objectMapper.writeValueAsString(employeeRequestDTO);
 

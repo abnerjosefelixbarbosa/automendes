@@ -14,23 +14,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerRequestDTO {
-	@NotNull(message = "Documento deve ser obrigatório.")
-	@NotEmpty(message = "Documento deve ser obrigatório.")
-	@Size(message = "Documento deve ter até 14 caracteres.", max = 14)
+	@NotNull(message = "Documento não deve ser nulo.")
+	@NotEmpty(message = "Documento não deve ser vazio.")
+	@Size(message = "Documento não deve ter mais de 14 caracteres.", max = 14)
 	private String document;
-	@NotNull(message = "Nome deve ser obrigatório.")
-	@NotEmpty(message = "Nome deve ser obrigatório.")
-	@Size(max = 100, message = "Nome deve ter 100 caracteres.")
+	@NotNull(message = "Nome não deve ser nulo.")
+	@NotEmpty(message = "Nome não deve ser vazio.")
+	@Size(max = 100, message = "Nome não deve ter 100 caracteres.")
 	private String name;
-	@NotNull(message = "Email deve ser obrigatório.")
-	@NotEmpty(message = "Email deve ser obrigatório.")
-	@Size(max = 50, message = "Email deve ter até 50 caracteres.")
+	@NotNull(message = "Email não deve ser nulo.")
+	@NotEmpty(message = "Email não deve ser vazio.")
+	@Size(max = 50, message = "Email não deve ter mais de 50 caracteres.")
 	@Email(message = "Email deve ser valido.")
 	private String email;
-	@NotNull(message = "Telefone deve ser obrigatório.")
-	@NotEmpty(message = "Telefone deve ser obrigatório.")
-	@Size(max = 30, message = "Telefone deve ter até 30 caracteres.")
+	@NotNull(message = "Telefone não deve ser nulo.")
+	@NotEmpty(message = "Telefone não deve ser vazio.")
+	@Size(max = 30, message = "Telefone não deve ter mais de 30 caracteres.")
 	private String phone;
-	@NotNull(message = "Tipo do cliente deve ser obrigatório.")
+	@NotNull(message = "Tipo do cliente não deve ser nulo.")
 	private CustomerType customerType;
 }
