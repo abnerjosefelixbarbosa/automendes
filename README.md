@@ -1,6 +1,8 @@
 # Automendes
 
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/abnerjosefelixbarbosa/automendes/maven.yml)](https://github.com/abnerjosefelixbarbosa/automendes/actions/workflows/maven.yml)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/abnerjosefelixbarbosa/automendes/build-backend.yml)
+
+[![build-backend](https://github.com/abnerjosefelixbarbosa/automendes/actions/workflows/build-backend.yml/badge.svg?branch=development)](https://github.com/abnerjosefelixbarbosa/automendes/actions/workflows/build-backend.yml)
 
 # Models
 
