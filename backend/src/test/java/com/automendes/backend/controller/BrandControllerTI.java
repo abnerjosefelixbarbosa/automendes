@@ -125,7 +125,7 @@ public class BrandControllerTI {
 	void shouldUpdateBrandByIdWithEmptyNameAndReturnStatus400() throws Exception {
 		loadBrands();
 
-		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome2");
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("");
 
 		String object = objectMapper.writeValueAsString(brandRequestDTO);
 
@@ -133,6 +133,36 @@ public class BrandControllerTI {
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
 		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.name").value("Nome não deve ser vazio."))
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldUpdateBrandByIdWithNameSize31AndReturnStatus400() throws Exception {
+		loadBrands();
+
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome2222222222222222222222222222");
+
+		String object = objectMapper.writeValueAsString(brandRequestDTO);
+
+		mockMvc.perform(put("/brands/update-brand-by-id").queryParam("id", brand.getId() + "")
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.name").value("Nome não deve ter mais de 30 caracteres."))
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldUpdateBrandByIdWithExistsNameAndReturnStatus400() throws Exception {
+		loadBrands();
+
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome1");
+
+		String object = objectMapper.writeValueAsString(brandRequestDTO);
+
+		mockMvc.perform(put("/brands/update-brand-by-id").queryParam("id", brand.getId() + "")
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.message").value("Nome não deve ser repetido."))
 		.andDo(print());
 	}
 	
