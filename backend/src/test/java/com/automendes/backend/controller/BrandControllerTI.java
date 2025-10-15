@@ -132,7 +132,7 @@ public class BrandControllerTI {
 		mockMvc.perform(put("/brands/update-brand-by-id").queryParam("id", brand.getId() + "")
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
 		.andExpect(status().isBadRequest())
-		.andExpect(jsonPath("$.Name").value("Nome não deve ser vazio."))
+		.andExpect(jsonPath("$.name").value("Nome não deve ser vazio."))
 		.andDo(print());
 	}
 	
