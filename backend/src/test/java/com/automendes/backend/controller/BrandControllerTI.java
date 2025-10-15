@@ -122,6 +122,21 @@ public class BrandControllerTI {
 	}
 	
 	@Test
+	void shouldUpdateBrandByIdWithEmptyNameAndReturnStatus400() throws Exception {
+		loadBrands();
+
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome2");
+
+		String object = objectMapper.writeValueAsString(brandRequestDTO);
+
+		mockMvc.perform(put("/brands/update-brand-by-id").queryParam("id", brand.getId() + "")
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.Name").value("Nome não deve ser vazio."))
+		.andDo(print());
+	}
+	
+	@Test
 	void shouldUpdateBrandByIdWithNotExistsIdAndReturnStatus404() throws Exception {
 		loadBrands();
 
