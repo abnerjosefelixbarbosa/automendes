@@ -4,7 +4,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,8 +37,7 @@ class CustomerControllerTI {
 	private ObjectMapper objectMapper;
 	@Autowired
 	private CustomerRepository customerRepository;
-	private String id;
-	private String document;
+	private Customer customer;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -54,7 +57,53 @@ class CustomerControllerTI {
 		String object = objectMapper.writeValueAsString(customerRequestDTO);
 
 		mockMvc.perform(post("/customers/register-customer").contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON).content(object)).andExpect(status().isCreated()).andDo(print());
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isCreated())
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterCustomerWithExistsDocumentOrExistsNameOrExistsEmailOrExistsPhoneAndReturnStatus400() throws Exception {
+		loadCustomers();
+		
+		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("52026255024", "nome1", "email1@gmail.com",
+				"81911111111", CustomerType.PF);
+
+		String object = objectMapper.writeValueAsString(customerRequestDTO);
+
+		mockMvc.perform(post("/customers/register-customer").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.message").value("Documento, nome, email ou telefone não deve ser repetido."))
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterCustomerWithInvalidDocumentCpfAndReturnStatus400() throws Exception {
+		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("52026255021", "nome1", "email1@gmail.com",
+				"81911111111", CustomerType.PF);
+
+		String object = objectMapper.writeValueAsString(customerRequestDTO);
+
+		mockMvc.perform(post("/customers/register-customer").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.message").value("Documento cpf deve ser valido."))
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterCustomerWithInvalidDocumentCnpjAndReturnStatus400() throws Exception {
+		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("16496627000111", "nome1", "email1@gmail.com",
+				"81911111111", CustomerType.PJ);
+
+		String object = objectMapper.writeValueAsString(customerRequestDTO);
+
+		mockMvc.perform(post("/customers/register-customer").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.message").value("Documento cnpj deve ser valido."))
+		.andDo(print());
 	}
 
 	@Test
@@ -66,27 +115,45 @@ class CustomerControllerTI {
 
 		String object = objectMapper.writeValueAsString(customerRequestDTO);
 
-		mockMvc.perform(put("/customers/update-customer-by-id").queryParam("id", id)
+		mockMvc.perform(put("/customers/update-customer-by-id").queryParam("id", customer.getId() + "")
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
-				.andExpect(status().isOk()).andDo(print());
+				.andExpect(status().isOk())
+				.andDo(print());
+	}
+	
+	@Test
+	void shouldUpdateCustomerByIdWithNotExistsIdAndReturnStatus404() throws Exception {
+		loadCustomers();
+
+		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO("06199835077", "nome2", "email2@gmail.com",
+				"81911111112", CustomerType.PF);
+
+		String object = objectMapper.writeValueAsString(customerRequestDTO);
+
+		mockMvc.perform(put("/customers/update-customer-by-id").queryParam("id", customer.getId() + "1")
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
+		        .andExpect(jsonPath("$.message").value("Id deve existir."))
+				.andExpect(status().isNotFound())
+				.andDo(print());
 	}
 
 	@Test
 	void shouldSearchCustomerByDocumentAndReturnStatus200() throws Exception {
 		loadCustomers();
 
-		mockMvc.perform(get("/customers/search-customer-by-document").queryParam("document", document))
-				.andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(get("/customers/search-customer-by-document").queryParam("document", customer.getDocument()))
+				.andExpect(status().isOk())
+				.andDo(print());
 	}
 
 	void loadCustomers() {
-		Customer customer = new Customer(Generators.timeBasedEpochRandomGenerator().generate().toString(), "52026255024", "nome1",
-				"email1@gmail.com", "81911111111", CustomerType.PF, null);
-
-		customer = customerRepository.save(customer);
-
-		id = customer.getId();
-
-		document = customer.getDocument();
+		List<Customer> customers = new ArrayList<>(); 
+		
+		customers.add(new Customer(Generators.timeBasedEpochRandomGenerator().generate().toString(), "52026255024", "nome1",
+				"email1@gmail.com", "81911111111", CustomerType.PF, null));
+		
+		customerRepository.saveAll(customers);
+		
+		customer = customers.get(0);
 	}
 }

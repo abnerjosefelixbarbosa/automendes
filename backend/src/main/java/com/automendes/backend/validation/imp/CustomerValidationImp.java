@@ -17,7 +17,7 @@ public class CustomerValidationImp implements CustomerValidation {
 	
 	public void validateCustomer(Customer customer) {
 		if (customerRepository.existsByDocumentOrNameOrEmailOrPhone(customer.getDocument(), customer.getName(), customer.getEmail(), customer.getPhone())) {
-			throw new RuntimeException("Documento, nome, email ou telefone deve ser único.");
+			throw new RuntimeException("Documento, nome, email ou telefone não deve ser repetido.");
 		}
 		
 		if (customer.getCustomerType().ordinal() == 0) {
