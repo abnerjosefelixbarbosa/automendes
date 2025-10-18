@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.uuid.Generators;
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("dev")
 @AutoConfigureMockMvc
 public class VehicleControllerTI {
 	@Autowired
