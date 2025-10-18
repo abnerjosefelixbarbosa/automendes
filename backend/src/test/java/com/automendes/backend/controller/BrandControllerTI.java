@@ -1,0 +1,202 @@
+package com.automendes.backend.controller;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.automendes.backend.dto.BrandRequestDTO;
+import com.automendes.backend.entity.Brand;
+import com.automendes.backend.repository.BrandRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.uuid.Generators;
+
+@SpringBootTest
+@ActiveProfiles("dev")
+@AutoConfigureMockMvc
+public class BrandControllerTI {
+	@Autowired
+	private MockMvc mockMvc;
+	@Autowired
+	private ObjectMapper objectMapper;
+	@Autowired
+	private BrandRepository brandRepository;
+	private Brand brand;
+
+	@BeforeEach
+	void setUp() throws Exception {
+		brandRepository.deleteAll();
+	}
+
+	@AfterEach
+	void tearDown() throws Exception {
+		brandRepository.deleteAll();
+	}
+
+	@Test
+	void shouldRegisterBrandAndReturnStatus201() throws Exception {
+		loadBrands();
+		
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome2");
+
+		String object = objectMapper.writeValueAsString(brandRequestDTO);
+
+		mockMvc.perform(post("/brands/register-brand").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isCreated())
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterBrandWithEmptyNameAndReturnStatus400() throws Exception {
+		loadBrands();
+		
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("");
+
+		String object = objectMapper.writeValueAsString(brandRequestDTO);
+
+		mockMvc.perform(post("/brands/register-brand").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.name").value("Nome não deve ser vazio."))
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterBrandWithNameSize31AndReturnStatus400() throws Exception {
+		loadBrands();
+		
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome222222222222222222222222222");
+
+		String object = objectMapper.writeValueAsString(brandRequestDTO);
+
+		mockMvc.perform(post("/brands/register-brand").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.name").value("Nome não deve ter mais de 30 caracteres."))
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldRegisterBrandWithExistsNameAndReturnStatus400() throws Exception {
+		loadBrands();
+		
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome1");
+
+		String object = objectMapper.writeValueAsString(brandRequestDTO);
+
+		mockMvc.perform(post("/brands/register-brand").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.message").value("Nome não deve ser repetido."))
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldUpdateBrandByIdAndReturnStatus200() throws Exception {
+		loadBrands();
+
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome2");
+
+		String object = objectMapper.writeValueAsString(brandRequestDTO);
+
+		mockMvc.perform(put("/brands/update-brand-by-id").queryParam("id", brand.getId() + "")
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isOk())
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldUpdateBrandByIdWithEmptyNameAndReturnStatus400() throws Exception {
+		loadBrands();
+
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("");
+
+		String object = objectMapper.writeValueAsString(brandRequestDTO);
+
+		mockMvc.perform(put("/brands/update-brand-by-id").queryParam("id", brand.getId() + "")
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.name").value("Nome não deve ser vazio."))
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldUpdateBrandByIdWithNameSize31AndReturnStatus400() throws Exception {
+		loadBrands();
+
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome2222222222222222222222222222");
+
+		String object = objectMapper.writeValueAsString(brandRequestDTO);
+
+		mockMvc.perform(put("/brands/update-brand-by-id").queryParam("id", brand.getId() + "")
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.name").value("Nome não deve ter mais de 30 caracteres."))
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldUpdateBrandByIdWithExistsNameAndReturnStatus400() throws Exception {
+		loadBrands();
+
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome1");
+
+		String object = objectMapper.writeValueAsString(brandRequestDTO);
+
+		mockMvc.perform(put("/brands/update-brand-by-id").queryParam("id", brand.getId() + "")
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.message").value("Nome não deve ser repetido."))
+		.andDo(print());
+	}
+	
+	@Test
+	void shouldUpdateBrandByIdWithNotExistsIdAndReturnStatus404() throws Exception {
+		loadBrands();
+
+		BrandRequestDTO brandRequestDTO = new BrandRequestDTO("nome2");
+
+		String object = objectMapper.writeValueAsString(brandRequestDTO);
+
+		mockMvc.perform(put("/brands/update-brand-by-id").queryParam("id", brand.getId() + "1")
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(object))
+		.andExpect(status().isNotFound())
+		.andExpect(jsonPath("$.message").value("Id deve ser existente."))
+		.andDo(print());
+	}
+
+	@Test
+	void shouldListBrandsAndReturnStatus200() throws Exception {
+		loadBrands();
+
+		mockMvc.perform(get("/brands/list-brands"))
+		.andExpect(status().isOk())
+		.andDo(print());
+	}
+
+	void loadBrands() {
+		List<Brand> brands = new ArrayList<>();
+
+		brands.add(new Brand(Generators.timeBasedEpochRandomGenerator().generate().toString(), "nome1", null));
+
+		brandRepository.saveAll(brands);
+
+		brand = brands.get(0);
+	}
+}
