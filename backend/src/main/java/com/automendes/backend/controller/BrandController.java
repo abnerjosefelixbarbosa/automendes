@@ -36,7 +36,7 @@ public class BrandController {
 	private BrandService brandService;
 
 	@ApiResponses({
-			@ApiResponse(responseCode = "201", description = "Cria uma marca."),
+			@ApiResponse(responseCode = "201", description = "Registra uma marca."),
 			@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
 			@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
 	})
