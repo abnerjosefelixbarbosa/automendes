@@ -20,6 +20,9 @@ import com.automendes.backend.entity.Employee;
 import com.automendes.backend.mapper.EmployeeMapper;
 import com.automendes.backend.service.EmployeeService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 @RestController
@@ -30,6 +33,12 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeMapper employeeMapper;
 
+	@ApiResponses({
+		@ApiResponse(responseCode = "201", description = "Registra um funcionário."),
+		@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
+		@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
+    })
+    @Operation(summary = "Registrar funcionário.", description = "Registra um funcionário.")
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(value = "/register-employee")
 	public ResponseEntity<EmployeeResponseDTO> registerEmployee(@Valid @RequestBody EmployeeRequestDTO dto) {
@@ -38,6 +47,12 @@ public class EmployeeController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(employeeMapper.toEmployeeResponseDTO(employee));
 	}
 
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "Atualiza um funcionário."),
+		@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
+		@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
+    })
+    @Operation(summary = "Atualizar funcionário pelo id.", description = "Registra um funcionário pelo id.")
 	@ResponseStatus(HttpStatus.OK)
 	@PutMapping(value = "/update-employee-by-id")
 	public ResponseEntity<EmployeeResponseDTO> updateEmployeeById(@RequestParam String id,
@@ -47,6 +62,12 @@ public class EmployeeController {
 		return ResponseEntity.status(HttpStatus.OK).body(employeeMapper.toEmployeeResponseDTO(employee));
 	}
 
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "Lista funcionários."),
+		@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
+		@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
+    })
+    @Operation(summary = "Listar funcionários.", description = "Lista funcionários.")
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = "/list-employees")
 	public ResponseEntity<Page<EmployeeResponseDTO>> listEmployees(Pageable pageable) {
