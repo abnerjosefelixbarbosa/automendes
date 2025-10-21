@@ -137,3 +137,37 @@ class VehicleType {
 - API Rest
 
 # Frontend
+
+# Requests
+
+## Brand
+
+Register Brand
+
+```json
+/brands/register-brand
+
+{
+  "name": ""
+}
+```
+
+Update Brand by Id
+
+```json
+/brands/update-brand-by-id?id=
+
+{
+  "name": ""
+}
+```
+
+List Brands
+
+
+```json
+/brands/list-brands
+```
+
+
+
