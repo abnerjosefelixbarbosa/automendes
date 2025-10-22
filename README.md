@@ -4,6 +4,12 @@
 
 # Models
 
+## About
+
+Automendes backend application.
+
+## Class Diagram
+
 ```mermaid
 classDiagram
 
@@ -122,9 +128,27 @@ class VehicleType {
 }
 ```
 
-# Backend
+# Project Resources
 
-## technologies
+## Features
+
+- Register Brand
+- Update Brand by Id
+- List Brands
+- Register Model
+- Update Model By Id
+- List Models
+- Register Vehicle
+- Update Vehicle By Id
+- List Vehicles
+- Register Employee
+- Update Employee By Id
+- List Employees
+- Register Customer
+- Update Customer By Id
+- Search Customer By Document
+
+## Backend
 
 - Java
 - Spring Boot
@@ -136,185 +160,17 @@ class VehicleType {
 - SOLID
 - API Rest
 
-# Frontend
+# Project Execution
 
-# Requests
+- Clone and run in an IDE
 
-## Brand
-
-Register Brand
-
-```json
-/brands/register-brand
-
-{
-  "name": ""
-}
+```bash
+# clonar repositório
+git clone https://github.com/abnerjosefelixbarbosa/automendes.git
 ```
 
-Update Brand by Id
+# Author
 
-```json
-/brands/update-brand-by-id?id=1
+Abner José Felix Barbosa
 
-{
-  "name": ""
-}
-```
-
-List Brands
-
-```json
-/brands/list-brands
-```
-
-## Vehicle
-
-Register Vehicle
-
-```json
-/vehicles/register-vehicle
-
-{
-  "plate": "",
-  "modelName": "",
-  "price": 0,
-  "boxgearType": "AUTO",
-  "vehicleType": "CAR"
-}
-```
-
-Update Vehicle By Id
-
-```json
-/vehicles/update-vehicle-by-id?id=1
-
-{
-  "plate": "",
-  "modelName": "",
-  "price": 0,
-  "boxgearType": "AUTO",
-  "vehicleType": "CAR"
-}
-```
-
-List Vehicles
-
-```json
-/vehicles/list-vehicles
-```
-
-## Model
-
-Register Model
-
-```json
-/models/register-model
-
-{
-  "name": "",
-  "brandName": ""
-}
-```
-
-Update Model By Id
-
-```json
-/models/update-model-by-id?id=1
-
-{
-  "name": "",
-  "brandName": ""
-}
-```
-
-List Models
-
-```json
-/models/list-models
-
-{
-  "name": "string",
-  "brandName": "string"
-}
-```
-
-## Employee
-
-Register Enployee
-
-```json
-/employees/register-employee
-
-{
-  "name": "",
-  "email": "",
-  "matriculation": "",
-  "phone": "",
-  "birthDate": "2025-10-22",
-  "commission": 0,
-  "employeeType": "MANAGER"
-}
-```
-
-Update Employee By Id
-
-```json
-/employees/update-employee-by-id?id=1
-
-{
-  "name": "",
-  "email": "",
-  "matriculation": "",
-  "phone": "",
-  "birthDate": "2025-10-22",
-  "commission": 0,
-  "employeeType": "MANAGER"
-}
-```
-
-List Models
-
-```json
-/models/list-models
-```
-
-## Customer
-
-Register Customer
-
-```json
-/customers/register-customer
-
-{
-  "name": "",
-  "email": "",
-  "matriculation": "",
-  "phone": "",
-  "birthDate": "2025-10-22",
-  "commission": 0,
-  "employeeType": "MANAGER"
-}
-```
-
-Update Customer By Id
-
-```json
-/customers/update-customer-by-id?id=1
-
-{
-  "name": "",
-  "email": "",
-  "matriculation": "",
-  "phone": "",
-  "birthDate": "2025-10-22",
-  "commission": 0,
-  "employeeType": "MANAGER"
-}
-```
-
-Search Customer By Document
-
-```json
-/customers/search-customer-by-document?document=1
-```
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/abner-jose-feliz-barbosa/)
