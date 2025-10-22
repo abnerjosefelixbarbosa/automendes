@@ -2,11 +2,11 @@
 
 [![build-backend](https://github.com/abnerjosefelixbarbosa/automendes/actions/workflows/build-backend.yml/badge.svg?branch=development)](https://github.com/abnerjosefelixbarbosa/automendes/actions/workflows/build-backend.yml)
 
-# Models
-
 ## About
 
 Automendes backend application.
+
+# Models
 
 ## Class Diagram
 
