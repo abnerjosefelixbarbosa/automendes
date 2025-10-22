@@ -1,5 +1,7 @@
 package com.automendes.backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,9 @@ import com.automendes.backend.entity.Brand;
 import com.automendes.backend.mapper.BrandMapper;
 import com.automendes.backend.service.BrandService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 @RestController
@@ -30,6 +35,12 @@ public class BrandController {
 	@Autowired
 	private BrandService brandService;
 
+	@ApiResponses({
+			@ApiResponse(responseCode = "201", description = "Registra uma marca."),
+			@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
+			@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
+	})
+	@Operation(summary = "Registrar marca.", description = "Registra uma marca.")
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(value = "/register-brand")
 	public ResponseEntity<BrandResponseDTO> registerBrand(@RequestBody @Valid BrandRequestDTO dto) {
@@ -38,6 +49,12 @@ public class BrandController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(brandMapper.toBrandResponseDTO(brand));
 	}
 	
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "Altera uma marca."),
+		@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
+		@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
+    })
+    @Operation(summary = "Atualizar marca pelo id.", description = "Atualiza uma marca pelo id.")
 	@ResponseStatus(HttpStatus.OK)
 	@PutMapping(value = "/update-brand-by-id")
 	public ResponseEntity<BrandResponseDTO> updateBrandById(@RequestParam String id, @RequestBody @Valid BrandRequestDTO dto) {
@@ -46,11 +63,17 @@ public class BrandController {
 		return ResponseEntity.status(HttpStatus.OK).body(brandMapper.toBrandResponseDTO(brand));
 	}
 	
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "Lista marcas."),
+		@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
+		@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
+    })
+    @Operation(summary = "Listar marcas.", description = "Lista marcas.")
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = "/list-brands")
-	public ResponseEntity<Page<BrandResponseDTO>> listBrands(Pageable pageable) {
+	public ResponseEntity<List<BrandResponseDTO>> listBrands(Pageable pageable) {
 		Page<Brand> page = brandService.listBrands(pageable);
 
-		return ResponseEntity.status(HttpStatus.OK).body(page.map(brandMapper::toBrandResponseDTO));
+		return ResponseEntity.status(HttpStatus.OK).body(page.map(brandMapper::toBrandResponseDTO).getContent());
 	}
 }

@@ -1,5 +1,7 @@
 package com.automendes.backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,9 @@ import com.automendes.backend.entity.Vehicle;
 import com.automendes.backend.mapper.VehicleMapper;
 import com.automendes.backend.service.VehicleService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 @RestController
@@ -30,6 +35,12 @@ public class VehicleController {
 	@Autowired
 	private VehicleMapper vehicleMapper;
 
+	@ApiResponses({
+		@ApiResponse(responseCode = "201", description = "Registra um veículo."),
+		@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
+		@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
+    })
+    @Operation(summary = "Registrar veículo.", description = "Registra um veículo.")
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(value = "/register-vehicle")
 	public ResponseEntity<VehicleResponseDTO> registerVehicle(@Valid @RequestBody VehicleRequestDTO dto) {
@@ -38,6 +49,12 @@ public class VehicleController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(vehicleMapper.toVehicleResponseDTO(vehicle));
 	}
 	
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "Atualiza um veículo."),
+		@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
+		@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
+    })
+    @Operation(summary = "Atualizar veículo pelo id.", description = "Atualiza um veículo pelo id.")
 	@ResponseStatus(HttpStatus.OK)
 	@PutMapping(value = "/update-vehicle-by-id")
 	public ResponseEntity<VehicleResponseDTO> updateVehicleById(@RequestParam String id, @Valid @RequestBody VehicleRequestDTO dto) {
@@ -46,11 +63,17 @@ public class VehicleController {
 		return ResponseEntity.status(HttpStatus.OK).body(vehicleMapper.toVehicleResponseDTO(vehicle));
 	}
 	
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "Lista Veículos."),
+		@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
+		@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
+    })
+    @Operation(summary = "Listar Veículos.", description = "Lista Veículos.")
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = "/list-vehicles")
-	public ResponseEntity<Page<VehicleResponseDTO>> listVehicles(Pageable pageable) {
+	public ResponseEntity<List<VehicleResponseDTO>> listVehicles(Pageable pageable) {
 		Page<Vehicle> page = vehicleService.listVehicles(pageable);
 
-		return ResponseEntity.status(HttpStatus.OK).body(page.map(vehicleMapper::toVehicleResponseDTO));
+		return ResponseEntity.status(HttpStatus.OK).body(page.map(vehicleMapper::toVehicleResponseDTO).getContent());
 	}
 }
