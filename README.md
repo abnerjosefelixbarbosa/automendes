@@ -167,6 +167,7 @@ OpenAPI Specification
 
 [api-docs](automendes/openapi.json).
 
+[![api-docs]](https://github.com/abnerjosefelixbarbosa/automendes/openapi.json)
 
 
 # Project Execution
