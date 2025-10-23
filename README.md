@@ -163,13 +163,13 @@ class VehicleType {
 
 # API Document
 
-OpenAPI Specification
+## OpenAPI Specification
 
 [api-docs](https://github.com/abnerjosefelixbarbosa/automendes/blob/development/apenapi.json).
 
 # Project Execution
 
-- Clone and run in an IDE
+Clone and run in an IDE
 
 ```bash
 # clonar repositório
