@@ -165,7 +165,7 @@ class VehicleType {
 
 OpenAPI Specification
 
-[api-docs](openapi.json).
+[api-docs](automendes/openapi.json).
 
 
 
