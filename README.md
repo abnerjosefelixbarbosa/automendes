@@ -8,6 +8,8 @@ Automendes backend application.
 
 # Models
 
+[models](https://github.com/abnerjosefelixbarbosa/automendes/wiki/Models).
+
 ## Class Diagram
 
 ```mermaid
