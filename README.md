@@ -8,7 +8,7 @@ Automendes backend application.
 
 # Models
 
-[class-diagram](https://github.com/abnerjosefelixbarbosa/automendes/wiki/Class-diagram).
+[class-diagram](https://github.com/abnerjosefelixbarbosa/automendes/wiki/Class-diagram)
 
 # Project Resources
 
@@ -45,9 +45,7 @@ Automendes backend application.
 
 # API Document
 
-## OpenAPI Specification
-
-[api-docs](https://github.com/abnerjosefelixbarbosa/automendes/blob/development/apenapi.json).
+[api-specific-documentation](https://github.com/abnerjosefelixbarbosa/automendes/wiki/API-specific-documentation)
 
 # Project Execution
 
