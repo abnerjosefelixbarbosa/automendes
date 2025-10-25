@@ -46,4 +46,9 @@ public class BrandServiceImp implements BrandService {
 	public Page<Brand> listBrands(Pageable pageable) {
 		return brandRepository.findAll(pageable);
 	}
+
+	public Brand searchBrandById(String id) {
+		return brandRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Id deve ser existente."));
+	}
 }

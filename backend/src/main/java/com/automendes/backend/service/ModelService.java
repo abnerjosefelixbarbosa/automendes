@@ -11,4 +11,6 @@ public interface ModelService {
 	Model updateModelById(String id, Model model);
 
 	Page<Model> listModels(Pageable pageable);
+
+	Model searchModelById(String id);
 }
