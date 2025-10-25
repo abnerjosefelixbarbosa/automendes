@@ -76,4 +76,18 @@ public class BrandController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(page.map(brandMapper::toBrandResponseDTO).getContent());
 	}
+	
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "Procura uma marca pelo id."),
+		@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
+		@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
+    })
+    @Operation(summary = "Procurar marca pelo id.", description = "Procura marca pelo id.")
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(value = "/search-brand-by-id")
+	public ResponseEntity<BrandResponseDTO> searchBrandById(@RequestParam String id) {
+		Brand brand = brandService.searchBrandById(id);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(brandMapper.toBrandResponseDTO(brand));
+	} 
 }

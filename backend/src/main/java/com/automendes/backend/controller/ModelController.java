@@ -77,4 +77,18 @@ public class ModelController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(page.map(modelMapper::toModelResposeDTO).getContent());
 	}
+	
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "Procura um modelo pelo id."),
+		@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
+		@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
+    })
+    @Operation(summary = "Procurar modelo pelo id.", description = "Procura modelo pelo id.")
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(value = "/search-model-by-id")
+	public ResponseEntity<ModelResposeDTO> searchModelById(@RequestParam String id) {
+		Model model = modelService.searchModelById(id);
+
+		return ResponseEntity.status(HttpStatus.OK).body(modelMapper.toModelResposeDTO(model));
+	}
 }

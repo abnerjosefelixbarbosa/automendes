@@ -76,4 +76,18 @@ public class VehicleController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(page.map(vehicleMapper::toVehicleResponseDTO).getContent());
 	}
+	
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "Procura um veículo pelo id."),
+		@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
+		@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
+    })
+    @Operation(summary = "Procurar veículo pelo id.", description = "Procura um veículo pelo id.")
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(value = "/search-vehicle-by-id")
+	public ResponseEntity<VehicleResponseDTO> searchVehicleById(@RequestParam String id) {
+		Vehicle vehicle = vehicleService.searchVehicleById(id);
+
+		return ResponseEntity.status(HttpStatus.OK).body(vehicleMapper.toVehicleResponseDTO(vehicle));
+	}
 }

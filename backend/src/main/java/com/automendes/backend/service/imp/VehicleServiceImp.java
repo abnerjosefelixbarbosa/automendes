@@ -60,4 +60,9 @@ public class VehicleServiceImp implements VehicleService {
 	public Page<Vehicle> listVehicles(Pageable pageable) {
 		return vehicleRepository.findAll(pageable);
 	}
+
+	public Vehicle searchVehicleById(String id) {
+		return vehicleRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Id deve ser existente."));
+	}
 }

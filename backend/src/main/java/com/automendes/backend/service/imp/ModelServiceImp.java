@@ -60,4 +60,9 @@ public class ModelServiceImp implements ModelService {
 	public Page<Model> listModels(Pageable pageable) {
 		return modelRepository.findAll(pageable);
 	}
+
+	public Model searchModelById(String id) {
+		return modelRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Id deve ser exitente."));
+	}
 }
