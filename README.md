@@ -2,129 +2,35 @@
 
 [![build-backend](https://github.com/abnerjosefelixbarbosa/automendes/actions/workflows/build-backend.yml/badge.svg?branch=development)](https://github.com/abnerjosefelixbarbosa/automendes/actions/workflows/build-backend.yml)
 
+## About
+
+Automendes backend application.
+
 # Models
 
-```mermaid
-classDiagram
+[Class diagram](https://github.com/abnerjosefelixbarbosa/automendes/wiki/Class-diagram)
 
-Employee -- EmployeeType
-Customer -- CustomerType
-Vehicle -- BoxgearType
-Vehicle -- VehicleType
-SaleVehicle -- SaleVehicleId
-SaleVehicle -- PaymentType
+# Project Resources
 
-Employee "1" --* "*" Sale
-Customer "1" --* "*" Sale
-Sale "1" -- "*" SaleVehicle
-Vehicle "1" -- "*" SaleVehicle
-Model "1" --* "*" Vehicle
-Brand "1" --* "*" Model
+## Features
 
-class Customer {
-    <<entity>>
-    - id: String
-    - document: String
-    - name: String
-    - email: String
-    - phone: String 
-    - customerType: CustomerType
-    - sales: List~Sale~
-}
+- Register Brand
+- Update Brand by Id
+- List Brands
+- Register Model
+- Update Model By Id
+- List Models
+- Register Vehicle
+- Update Vehicle By Id
+- List Vehicles
+- Register Employee
+- Update Employee By Id
+- List Employees
+- Register Customer
+- Update Customer By Id
+- Search Customer By Document
 
-class Employee {
-    <<entity>>
-    - id: String
-    - name: String
-    - email: String
-    - matriculation: String
-    - phone: String
-    - birthDate: LocalDate
-    - commission: BigDecimal
-    - employeeType: EmployeeType
-    - sales: List~Sale~
-}
-
-class Sale {
-    <<entity>>
-    - id: String
-    - quantity: Integer
-    - SaleDateTime: LocalDateTime
-    - total: BigDecimal
-    - paymentType: PaymentType
-    - customer: Customer
-    - employee: Employee
-    - saleVehicles: List~SaleVehicle~ 
-}
-
-class SaleVehicle {
-    <<entity>>
-    - sale: Sale
-    - vehicle: Vehicle
-    - paymentType: PaymentType  
-}
-
-class SaleVehicleId {
-    - saleId: String
-    - vehicleId: String
-}
-
-
-class Vehicle {
-    <<entity>>
-    - id: String
-    - plate: String
-    - price: BigDecimal
-    - model: Model
-    - boxgearType: BoxgearType
-    - vehicleType: VehicleType
-    - saleVehicles: List~SaleVehicle~ 
-}
-
-class Model {
-    <<entity>>
-    - id: String
-    - name: String
-    - brand: Brand
-    - vehicles: List~Vehicle~
-}
-
-class Brand {
-    <<entity>>
-    - id: String
-    - name: String
-    - models: List~Model~  
-}
-
-class PaymentType {
-    <<enum>>
-    CASH, CREDIT_CARD, DEBIT_CARD, BANK_TRANSFER;
-}
-
-class BoxgearType {
-     <<enum>>
-    AUTO, MANUAL;
-}
-
-class EmployeeType {
-    <<enum>>
-    MANAGER, DEPUTY_MANAGER, SELLER;
-}
-
-class CustomerType {
-    <<enum>>
-    PF, PJ;
-}
-
-class VehicleType {
-    <<enum>>
-    CAR, MOTOCYCLE;
-}
-```
-
-# Backend
-
-## technologies
+## Backend
 
 - Java
 - Spring Boot
@@ -135,39 +41,23 @@ class VehicleType {
 - MVC
 - SOLID
 - API Rest
+- Swagger
 
-# Frontend
+# API Document
 
-# Requests
+[API specified documentation](https://github.com/abnerjosefelixbarbosa/automendes/wiki/API-specified-documentation)
 
-## Brand
+# Project Execution
 
-Register Brand
+Clone and run in an IDE
 
-```json
-/brands/register-brand
-
-{
-  "name": ""
-}
+```bash
+# clonar repositório
+git clone https://github.com/abnerjosefelixbarbosa/automendes.git
 ```
 
-Update Brand by Id
+# Author
 
-```json
-/brands/update-brand-by-id?id=
+Abner José Felix Barbosa
 
-{
-  "name": ""
-}
-```
-
-List Brands
-
-
-```json
-/brands/list-brands
-```
-
-
-
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/abner-jose-feliz-barbosa/)
