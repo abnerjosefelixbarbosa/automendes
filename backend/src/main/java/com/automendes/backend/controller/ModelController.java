@@ -79,7 +79,7 @@ public class ModelController {
 	}
 	
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "Procura modelo pelo id."),
+		@ApiResponse(responseCode = "200", description = "Procura um modelo pelo id."),
 		@ApiResponse(responseCode = "400", description = "Retorna um erro de requisição."),
 		@ApiResponse(responseCode = "404", description = "Retorna um erro de recurso não encontrado."),
     })

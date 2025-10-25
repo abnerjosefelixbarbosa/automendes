@@ -11,4 +11,6 @@ public interface VehicleService {
 	Vehicle updateVehicleById(String id, Vehicle vehicle);
 
 	Page<Vehicle> listVehicles(Pageable pageable);
+
+	Vehicle searchVehicleById(String id);
 }
