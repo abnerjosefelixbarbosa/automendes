@@ -1,0 +1,23 @@
+<main>
+  <app-navbar></app-navbar>
+
+  <div class="container mt-5 p-5">
+    <div class="card">
+      <div class="card-header text-center">Registro de Marca</div>
+      <div class="card-body">
+        <form [formGroup]="brandRegistrationForm" (submit)="registrationBrand(brandRegistrationForm)">
+          <div class="mb-3 mt-3">
+            <label class="form-label">Nome:</label>
+            <input type="text" class="form-control" formControlName="name" />
+          </div>
+          <div class="d-grid">
+            <button type="submit" [disabled]="brandRegistrationForm.invalid" class="btn btn-primary btn-block">
+              Registrar
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer"></div>
+    </div>
+  </div>
+</main>

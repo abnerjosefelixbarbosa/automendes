@@ -1,0 +1,17 @@
+.side-navbar {
+  width: 300px;
+  position: absolute;
+  z-index: 1;
+}
+
+.side-navbar .nav-link {
+  color: white;               
+  padding: 10px 110px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.side-navbar .nav-link:hover {
+  color: #000;                
+  border-radius: 5px;   
+  background-color: white;      
+}
