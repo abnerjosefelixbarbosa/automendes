@@ -10,8 +10,13 @@
             <label class="form-label">Nome:</label>
             <input type="text" class="form-control" formControlName="name" />
           </div>
+          @if (brandRegistrationForm.get('name')?.errors) {
+            <div class="alert alert-danger" role="alert">
+              Nome deve ser valido.
+            </div>
+          }
           <div class="d-grid">
-            <button type="submit" [disabled]="brandRegistrationForm.invalid" class="btn btn-primary btn-block">
+            <button type="submit" class="btn btn-primary btn-block">
               Registrar
             </button>
           </div>

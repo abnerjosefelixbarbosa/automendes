@@ -13,7 +13,35 @@ export class BrandRegistrationComponent {
     name: new FormControl('', [Validators.required, Validators.maxLength(30)])
   });
 
+  errorForm = {
+    name: ''
+  }
+
   registrationBrand(data: FormGroup) {
-    console.log(data.value)
+    //console.log(data.value)
+
+    this.cleanError()
+
+    this.validateForm(data)
+
+    
+    
+    //console.log(data.get('name')?.errors)
+  }
+
+  private validateForm(data: FormGroup) {
+    const { name } = data.value;
+
+    if (name === '') {
+      this.errorForm.name = 'Nome não deve ser vario.'
+    }
+
+    if (name.length > 30) {
+      this.errorForm.name = 'Nome não deve ter mais de 30 caracteres.'
+    }
+  }
+
+  private cleanError() {
+    this.errorForm.name = ''
   }
 }
