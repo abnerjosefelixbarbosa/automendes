@@ -1,47 +1,45 @@
-import { Component } from '@angular/core';
-import { NavbarComponent } from "../navbar/navbar.component";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { NavbarComponent } from '../navbar/navbar.component';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { BrandService } from '../../service/brand/brand.service';
+import { Brand } from '../../model/brand/brand';
 
 @Component({
   selector: 'app-brand-registration',
   imports: [NavbarComponent, ReactiveFormsModule],
   templateUrl: './brand-registration.component.html',
-  styleUrl: './brand-registration.component.css'
+  styleUrl: './brand-registration.component.css',
 })
 export class BrandRegistrationComponent {
-  brandRegistrationForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.maxLength(30)])
+  form = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
   });
+  private brandService = inject(BrandService);
+  submitted = false;
 
-  errorForm = {
-    name: ''
-  }
+  constructor() {}
 
-  registrationBrand(data: FormGroup) {
-    //console.log(data.value)
+  registerBrand(data: FormGroup) {
+    this.submitted = true;
 
-    this.cleanError()
-
-    this.validateForm(data)
-
-    
-    
-    //console.log(data.get('name')?.errors)
-  }
-
-  private validateForm(data: FormGroup) {
     const { name } = data.value;
 
-    if (name === '') {
-      this.errorForm.name = 'Nome não deve ser vario.'
-    }
+    const brand: Brand = {
+      id: null,
+      name: name,
+    };
 
-    if (name.length > 30) {
-      this.errorForm.name = 'Nome não deve ter mais de 30 caracteres.'
-    }
-  }
+    console.log(brand)
 
-  private cleanError() {
-    this.errorForm.name = ''
+    try {
+      this.brandService.registerBrand(brand);
+    } catch (e: any) {
+      console.error(e.message);
+    }
   }
 }

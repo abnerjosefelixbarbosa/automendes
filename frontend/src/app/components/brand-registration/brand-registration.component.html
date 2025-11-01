@@ -5,19 +5,19 @@
     <div class="card">
       <div class="card-header text-center">Registro de Marca</div>
       <div class="card-body">
-        <form [formGroup]="brandRegistrationForm" (submit)="registrationBrand(brandRegistrationForm)">
+        <form [formGroup]="form" (submit)="registerBrand(form)">
           <div class="mb-3 mt-3">
             <label class="form-label">Nome:</label>
             <input type="text" class="form-control" formControlName="name" />
           </div>
-          @if (brandRegistrationForm.get('name')?.errors) {
+          @if (form.get('name')?.invalid && submitted) {
             <div class="alert alert-danger" role="alert">
               Nome deve ser valido.
             </div>
           }
           <div class="d-grid">
             <button type="submit" class="btn btn-primary btn-block">
-              Registrar
+              Registra
             </button>
           </div>
         </form>

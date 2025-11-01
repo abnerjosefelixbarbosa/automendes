@@ -1,21 +1,14 @@
 import { Injectable } from '@angular/core';
-
-interface Brand {
-  name: string
-}
+import { Brand } from '../../model/brand/brand';
+import { ApplicationError } from '../../exceptions/application-error';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BrandService {
+  constructor() {}
 
-  constructor() { }
-
-  public registerBrand(data: Brand) {
-
-  }
-
-  private validateBrand(data: Brand) {
-
+  registerBrand(data: Brand) {
+    
   }
 }
