@@ -10,9 +10,9 @@
             <label class="form-label">Nome:</label>
             <input type="text" class="form-control" formControlName="name" />
           </div>
-          @if (form.get('name')?.invalid && submitted) {
+          @if (formError.name != '') {
             <div class="alert alert-danger" role="alert">
-              Nome deve ser valido.
+              {{ formError.name }}
             </div>
           }
           <div class="d-grid">
