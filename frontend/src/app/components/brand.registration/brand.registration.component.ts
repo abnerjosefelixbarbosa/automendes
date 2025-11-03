@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { BrandService } from '../../service/brand/brand.service';
+import { BrandRequest, BrandService } from '../../service/brand/brand.service';
 import { Brand } from '../../model/brand/brand';
 
 @Component({
@@ -22,53 +22,44 @@ export class BrandRegistrationComponent {
   formError = {
     name: '',
   };
+  requestError = {
+    message: '',
+  };
+  requestSuccess = {
+    message: '',
+  };
   private brandService = inject(BrandService);
 
   constructor() {}
 
   registerBrand(data: FormGroup) {
-    this.cleanForm();
+    this.cleanError();
 
-    const brand = this.createBrand(data);
+    const request: BrandRequest = {
+      ...data.value,
+    };
 
     try {
       this.brandService
-        .registerBrand(brand)
-        .then((value) => {
-          console.log(value);
+        .registerBrand(request)
+        .then(() => {
+          this.requestSuccess.message = 'Marca registrada.';
         })
         .catch((e) => {
           const message = e.error.message;
-
-          console.error(message);
-
-          if (message.includes('Nome')) {
-            this.formError.name = message;
-          }
+          this.requestError.message = message;
         });
     } catch (e: any) {
       const message: string = e.message;
-
-      console.error(message);
-
       if (message.includes('Nome')) {
         this.formError.name = message;
       }
     }
   }
 
-  private cleanForm() {
+  private cleanError() {
     this.formError.name = '';
-  }
-
-  private createBrand(data: FormGroup) {
-    const { name } = data.value;
-
-    const brand: Brand = {
-      id: null,
-      name: name,
-    };
-
-    return brand;
+    this.requestError.message = '';
+    this.requestSuccess.message = '';
   }
 }

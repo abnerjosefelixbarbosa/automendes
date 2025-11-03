@@ -2,8 +2,12 @@ import { Injectable } from '@angular/core';
 import { Brand } from '../../model/brand/brand';
 import { ApplicationError } from '../../exceptions/application.error';
 import { HttpClient } from '@angular/common/http';
-import { api } from '../../utils/api';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment.dev'
+
+export interface BrandRequest {
+  name: string
+}
 
 interface BrandResponse {
   id: string;
@@ -14,24 +18,22 @@ interface BrandResponse {
   providedIn: 'root',
 })
 export class BrandService {
-  private url: string = api.development;
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  registerBrand(data: Brand) {
+  registerBrand(data: BrandRequest) {
     this.validateBrand(data);
 
     const response = this.http.post<BrandResponse>(
-      `${this.url}/brands/register-brand`,
-      {
-        name: data.name
-      }
+      `${this.apiUrl}/brands/register-brand`,
+      data
     );
 
     return firstValueFrom(response);
   }
 
-  private validateBrand(data: Brand) {
+  private validateBrand(data: BrandRequest) {
     if (data.name === '') {
       throw new ApplicationError('Nome não deve ser vazio.')
     }
