@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Brand } from '../../model/brand/brand';
 import { ApplicationError } from '../../exceptions/application.error';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { environment } from '../../../environments/environment.dev'
+import { environment } from '../../../environments/environment.dev';
 
 export interface BrandRequest {
-  name: string
+  name: string;
 }
 
 interface BrandResponse {
@@ -35,7 +34,15 @@ export class BrandService {
 
   private validateBrand(data: BrandRequest) {
     if (data.name === '') {
-      throw new ApplicationError('Nome não deve ser vazio.')
+      throw new ApplicationError('Nome não deve ser vazio.');
+    }
+
+    if (data.name.length > 30) {
+      throw new ApplicationError('Nome não deve ter mais de 30 caracteres.');
+    }
+
+    if (data.name.includes(' ')) {
+      throw new ApplicationError('Nome não deve ter espaço vazio.');
     }
   }
 }

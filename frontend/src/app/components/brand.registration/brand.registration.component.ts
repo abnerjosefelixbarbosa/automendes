@@ -7,7 +7,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { BrandRequest, BrandService } from '../../service/brand/brand.service';
-import { Brand } from '../../model/brand/brand';
 
 @Component({
   selector: 'app-brand-registration',
