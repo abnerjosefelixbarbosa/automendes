@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApplicationError } from '../../exceptions/application.error';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { environment } from '../../../environments/environment.dev';
+import { environment } from '../../../environments/environment';
 
 export interface BrandRequest {
   name: string;
