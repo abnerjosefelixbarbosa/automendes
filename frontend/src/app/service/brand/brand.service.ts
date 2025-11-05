@@ -24,12 +24,12 @@ export class BrandService {
   registerBrand(data: BrandRequest) {
     this.validateBrand(data);
 
-    const response = this.http.post<BrandResponse>(
-      `${this.apiUrl}/brands/register-brand`,
-      data
+    return firstValueFrom(
+      this.http.post<BrandResponse>(
+        `${this.apiUrl}/brands/register-brand`,
+        data
+      )
     );
-
-    return firstValueFrom(response);
   }
 
   private validateBrand(data: BrandRequest) {

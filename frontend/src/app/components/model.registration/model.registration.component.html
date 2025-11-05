@@ -1,0 +1,56 @@
+<main>
+    <app-navbar></app-navbar>
+
+    <div class="container mt-5 p-5">
+    <div class="card">
+      <div class="card-header text-center">Registro do modelo</div>
+      <div class="card-body">
+
+        @if (requestError.message != '') {
+        <div class="alert alert-danger" role="alert">
+          {{ requestError.message }}
+        </div>
+        }
+        
+        @if (requestSuccess.message != '') {
+        <div class="alert alert-success" role="alert">
+          {{ requestSuccess.message }}
+        </div>
+        }
+
+        <form [formGroup]="form" (submit)="registerModel(form)">
+
+          <div class="mb-3 mt-3">
+            <label class="form-label">Nome:</label>
+            <input type="text" class="form-control" formControlName="name" />
+          </div>
+
+          @if (formError.name != '') {
+          <div class="alert alert-danger" role="alert">
+            {{ formError.name }}
+          </div>
+          }
+
+          <div class="mb-3 mt-3">
+            <label class="form-label">Nome do modelo:</label>
+            <input type="text" class="form-control" formControlName="modelName" />
+          </div>
+
+          @if (formError.modelName != '') {
+          <div class="alert alert-danger" role="alert">
+            {{ formError.modelName }}
+          </div>
+          }
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-block">
+              Registra
+            </button>
+          </div>
+          
+        </form>
+      </div>
+      <div class="card-footer"></div>
+    </div>
+  </div>
+</main>
