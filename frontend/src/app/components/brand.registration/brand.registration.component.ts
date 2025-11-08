@@ -1,11 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BrandRequest, BrandService } from '../../service/brand/brand.service';
+import { ApplicationError } from '../../exceptions/application.error';
 
 @Component({
   selector: 'app-brand-registration',
@@ -30,27 +27,23 @@ export class BrandRegistrationComponent {
 
   constructor() {}
 
-  registerBrand(data: FormGroup) {
+  async registerBrand(data: FormGroup) {
     this.cleanError();
 
     const request: BrandRequest = {
-      ...data.value,
+      name: data.get('name')?.value,
     };
 
     try {
-      this.brandService
-        .registerBrand(request)
-        .then(() => {
-          this.requestSuccess.message = 'Marca registrada.';
-        })
-        .catch((e) => {
-          const message = e.error.message;
-          this.requestError.message = message;
-        });
-    } catch (e: any) {
-      const message: string = e.message;
-      if (message.includes('Nome')) {
-        this.formError.name = message;
+      await this.brandService.registerBrand(request)
+
+    } catch (e) {
+      if (e instanceof ApplicationError) {
+        if (e.message.includes('Nome não deve ser repetido.')) {
+          this.requestError.message = e.message;
+        } else {
+          this.formError.name = e.message;
+        }
       }
     }
   }

@@ -12,11 +12,11 @@ import { ModelRequest, ModelService } from '../../service/model/model.service';
 export class ModelRegistrationComponent {
   form = new FormGroup({
     name: new FormControl('', []),
-    modelName: new FormControl('', []),
+    bradName: new FormControl('', []),
   });
   formError = {
     name: '',
-    modelName: '',
+    bradName: '',
   };
   requestError = {
     message: '',
@@ -32,7 +32,8 @@ export class ModelRegistrationComponent {
     this.cleanError();
 
     const request: ModelRequest = {
-      ...data.value,
+      name: data.get('name')?.value,
+      brandName: data.get('bradName')?.value
     };
 
     try {
@@ -44,22 +45,23 @@ export class ModelRegistrationComponent {
         .catch((e) => {
           const message = e.error.message;
           this.requestError.message = message;
-          console.error(message)
         });
     } catch (e: any) {
       const message: string = e.message;
       if (message.includes('Nome')) {
         this.formError.name = message;
       }
-      if (message.includes('Nome do modelo')) {
-        this.formError.modelName = message;
+      if (message.includes('Nome da marca')) {
+        this.formError.bradName = message;
       }
+
+      console.log(message.search('Nome da marca'))
     }
   }
 
   private cleanError() {
     this.formError.name = '';
-    this.formError.modelName = '';
+    this.formError.bradName = '';
     this.requestError.message = '';
     this.requestSuccess.message = '';
   }

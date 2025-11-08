@@ -1,19 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { BrandRequest } from '../brand/brand.service';
 import { firstValueFrom } from 'rxjs';
 import { ApplicationError } from '../../exceptions/application.error';
 
 export interface ModelRequest {
   name: string;
-  modelName: string;
+  brandName: string;
 }
 
 interface ModelResponse {
   id: string;
   name: string;
-  modelName: string;
+  brandName: string;
 }
 
 @Injectable({
@@ -48,18 +47,18 @@ export class ModelService {
       throw new ApplicationError('Nome não deve ter espaço vazio.');
     }
 
-    if (data.modelName === '') {
-      throw new ApplicationError('Nome do modelo não deve ser vazio.');
+    if (data.brandName === '') {
+      throw new ApplicationError('Nome da marca não deve ser vazio.');
     }
 
-    if (data.modelName.length > 30) {
+    if (data.brandName.length > 30) {
       throw new ApplicationError(
-        'Nome do modelo não deve ter mais de 30 caracteres.'
+        'Nome da marca não deve ter mais de 30 caracteres.'
       );
     }
 
-    if (data.modelName.includes(' ')) {
-      throw new ApplicationError('Nome do modelo não deve ter espaço vazio.');
+    if (data.brandName.includes(' ')) {
+      throw new ApplicationError('Nome da marca não deve ter espaço vazio.');
     }
   }
 }

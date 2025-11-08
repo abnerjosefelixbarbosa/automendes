@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApplicationError } from '../../exceptions/application.error';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, firstValueFrom, Observable, of, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface BrandRequest {
@@ -21,7 +21,7 @@ export class BrandService {
 
   constructor(private http: HttpClient) {}
 
-  registerBrand(data: BrandRequest) {
+  registerBrand(data: BrandRequest): Promise<BrandResponse> {
     this.validateBrand(data);
 
     return firstValueFrom(
@@ -29,18 +29,18 @@ export class BrandService {
         `${this.apiUrl}/brands/register-brand`,
         data
       )
-    );
+    ).catch((e: HttpErrorResponse) => {
+      throw new ApplicationError(e.error.message);
+    });;
   }
 
   private validateBrand(data: BrandRequest) {
     if (data.name === '') {
       throw new ApplicationError('Nome não deve ser vazio.');
     }
-
     if (data.name.length > 30) {
       throw new ApplicationError('Nome não deve ter mais de 30 caracteres.');
     }
-
     if (data.name.includes(' ')) {
       throw new ApplicationError('Nome não deve ter espaço vazio.');
     }
