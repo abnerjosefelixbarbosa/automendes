@@ -22,27 +22,11 @@ export class BrandService {
   constructor(private http: HttpClient) {}
 
   registerBrand(data: BrandRequest): Promise<BrandResponse> {
-    this.validateBrand(data);
-
     return firstValueFrom(
       this.http.post<BrandResponse>(
         `${this.apiUrl}/brands/register-brand`,
         data
       )
-    ).catch((e: HttpErrorResponse) => {
-      throw new ApplicationError(e.error.message);
-    });;
-  }
-
-  private validateBrand(data: BrandRequest) {
-    if (data.name === '') {
-      throw new ApplicationError('Nome não deve ser vazio.');
-    }
-    if (data.name.length > 30) {
-      throw new ApplicationError('Nome não deve ter mais de 30 caracteres.');
-    }
-    if (data.name.includes(' ')) {
-      throw new ApplicationError('Nome não deve ter espaço vazio.');
-    }
+    );
   }
 }

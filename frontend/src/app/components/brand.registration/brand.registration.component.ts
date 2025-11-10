@@ -1,8 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { BrandRequest, BrandService } from '../../service/brand/brand.service';
-import { ApplicationError } from '../../exceptions/application.error';
+import { HttpErrorResponse } from '@angular/common/http';
+import { blankValidator } from '../../../validators/blank.validator';
 
 @Component({
   selector: 'app-brand-registration',
@@ -11,46 +20,67 @@ import { ApplicationError } from '../../exceptions/application.error';
   styleUrl: './brand.registration.component.css',
 })
 export class BrandRegistrationComponent {
-  form = new FormGroup({
-    name: new FormControl('', []),
-  });
-  formError = {
-    name: '',
-  };
-  requestError = {
-    message: '',
-  };
-  requestSuccess = {
-    message: '',
-  };
   private brandService = inject(BrandService);
+  form = new FormGroup(
+    {
+      name: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(30),
+        blankValidator()
+      ]),
+    }
+  );
+  message: string = '';
+  messageError: string = '';
 
   constructor() {}
 
-  async registerBrand(data: FormGroup) {
+  registerBrand(data: FormGroup) {
     this.cleanError();
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
     const request: BrandRequest = {
       name: data.get('name')?.value,
     };
 
-    try {
-      await this.brandService.registerBrand(request)
-
-    } catch (e) {
-      if (e instanceof ApplicationError) {
-        if (e.message.includes('Nome não deve ser repetido.')) {
-          this.requestError.message = e.message;
-        } else {
-          this.formError.name = e.message;
+    this.brandService
+      .registerBrand(request)
+      .then(() => {
+        this.message = 'Marca registrada.';
+      })
+      .catch((e: HttpErrorResponse) => {
+        if (e.error) {
+          this.messageError = e.error.message;
         }
-      }
+      });
+  }
+
+  getErrorMessage(controlName: string) {
+    const control = this.form.get(controlName);
+
+    if (control?.hasError('required')) {
+      return 'Nome não deve ser vazio.';
     }
+
+    if (control?.hasError('blank')) {
+      return 'Nome não deve ter espaço vazio.';
+    }
+
+    if (control?.hasError('maxlength')) {
+      const maxLength = control.errors?.['maxlength'].requiredLength;
+
+      return `Nome não deve ter mais de ${maxLength} caracteres.`;
+    }
+
+    return '';
   }
 
   private cleanError() {
-    this.formError.name = '';
-    this.requestError.message = '';
-    this.requestSuccess.message = '';
+    this.message = '';
+
+    this.messageError = '';
   }
 }
