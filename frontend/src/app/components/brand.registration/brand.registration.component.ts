@@ -36,6 +36,7 @@ export class BrandRegistrationComponent {
 
   registerBrand(data: FormGroup) {
     this.cleanError();
+    
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
