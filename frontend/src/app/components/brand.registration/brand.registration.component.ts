@@ -1,12 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { BrandRequest, BrandService } from '../../service/brand/brand.service';
@@ -36,7 +33,7 @@ export class BrandRegistrationComponent {
 
   registerBrand(data: FormGroup) {
     this.cleanError();
-    
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
