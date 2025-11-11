@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ApplicationError } from '../../exceptions/application.error';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, firstValueFrom, Observable, of, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface BrandRequest {

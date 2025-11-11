@@ -21,7 +21,7 @@
           </div>
           @if (form.get('name')?.touched && form.get('name')?.invalid) {
             <div class="alert alert-danger" role="alert">
-              {{ getErrorMessage('name') }}
+              {{ getErrorMessage('name', 'Nome') }}
             </div>
           }
           <div class="d-grid">

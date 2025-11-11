@@ -11,7 +11,8 @@ import {
 } from '@angular/forms';
 import { BrandRequest, BrandService } from '../../service/brand/brand.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { blankValidator } from '../../../validators/blank.validator';
+import { isBlankValidator } from '../../../validators/blank.validator';
+import { ValidationService } from '../../service/validation/validation.service';
 
 @Component({
   selector: 'app-brand-registration',
@@ -26,14 +27,12 @@ export class BrandRegistrationComponent {
       name: new FormControl('', [
         Validators.required,
         Validators.maxLength(30),
-        blankValidator()
+        isBlankValidator()
       ]),
     }
   );
   message: string = '';
   messageError: string = '';
-
-  constructor() {}
 
   registerBrand(data: FormGroup) {
     this.cleanError();
@@ -58,29 +57,13 @@ export class BrandRegistrationComponent {
       });
   }
 
-  getErrorMessage(controlName: string) {
+  getErrorMessage(controlName: string, label: string) {
     const control = this.form.get(controlName);
-
-    if (control?.hasError('required')) {
-      return 'Nome não deve ser vazio.';
-    }
-
-    if (control?.hasError('blank')) {
-      return 'Nome não deve ter espaço vazio.';
-    }
-
-    if (control?.hasError('maxlength')) {
-      const maxLength = control.errors?.['maxlength'].requiredLength;
-
-      return `Nome não deve ter mais de ${maxLength} caracteres.`;
-    }
-
-    return '';
+    return ValidationService.getErrorMessage(control, label)
   }
 
   private cleanError() {
     this.message = '';
-
     this.messageError = '';
   }
 }
