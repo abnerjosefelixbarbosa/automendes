@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { BrandRequest, BrandService } from '../../service/brand/brand.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { isBlankValidator } from '../../../validators/blank.validator';
+import { blankValidator } from '../../../validators/blank.validator';
 import { ValidationService } from '../../service/validation/validation.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class BrandRegistrationComponent {
       name: new FormControl('', [
         Validators.required,
         Validators.maxLength(30),
-        isBlankValidator()
+        blankValidator()
       ]),
     }
   );

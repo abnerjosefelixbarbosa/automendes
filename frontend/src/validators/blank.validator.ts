@@ -1,6 +1,6 @@
 import { ValidatorFn, AbstractControl, ValidationErrors } from "@angular/forms";
 
-export function isBlankValidator(): ValidatorFn {
+export function blankValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value as string;
 
