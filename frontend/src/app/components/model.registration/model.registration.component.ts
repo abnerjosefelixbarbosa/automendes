@@ -1,7 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ModelRequest, ModelService } from '../../service/model/model.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ValidationService } from '../../service/validation/validation.service';
+import { blankValidator } from '../../validators/blank.validator';
 
 @Component({
   selector: 'app-model.registration',
@@ -11,19 +19,19 @@ import { ModelRequest, ModelService } from '../../service/model/model.service';
 })
 export class ModelRegistrationComponent {
   form = new FormGroup({
-    name: new FormControl('', []),
-    bradName: new FormControl('', []),
+    name: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(30),
+      blankValidator(),
+    ]),
+    bradName: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(30),
+      blankValidator(),
+    ]),
   });
-  formError = {
-    name: '',
-    bradName: '',
-  };
-  requestError = {
-    message: '',
-  };
-  requestSuccess = {
-    message: '',
-  };
+  message: string = '';
+  messageError: string = '';
   private modelService = inject(ModelService);
 
   constructor() {}
@@ -33,36 +41,26 @@ export class ModelRegistrationComponent {
 
     const request: ModelRequest = {
       name: data.get('name')?.value,
-      brandName: data.get('bradName')?.value
+      brandName: data.get('bradName')?.value,
     };
 
-    try {
-      this.modelService
-        .registerModel(request)
-        .then(() => {
-          this.requestSuccess.message = 'Modelo registrado.';
-        })
-        .catch((e) => {
-          const message = e.error.message;
-          this.requestError.message = message;
-        });
-    } catch (e: any) {
-      const message: string = e.message;
-      if (message.includes('Nome')) {
-        this.formError.name = message;
-      }
-      if (message.includes('Nome da marca')) {
-        this.formError.bradName = message;
-      }
+    this.modelService
+      .registerModel(request)
+      .then(() => {
+        this.message = 'Modelo registrado.';
+      })
+      .catch((e: HttpErrorResponse) => {
+        this.messageError = e.error.message;
+      });
+  }
 
-      console.log(message.search('Nome da marca'))
-    }
+  getErrorMessage(controlName: string, label: string) {
+    const control = this.form.get(controlName);
+    return ValidationService.getErrorMessage(control, label);
   }
 
   private cleanError() {
-    this.formError.name = '';
-    this.formError.bradName = '';
-    this.requestError.message = '';
-    this.requestSuccess.message = '';
+    this.messageError = '';
+    this.message = '';
   }
 }

@@ -6,29 +6,28 @@
       <div class="card-header text-center">Registro do modelo</div>
       <div class="card-body">
 
-        @if (requestError.message != '') {
+        @if (messageError != '') {
         <div class="alert alert-danger" role="alert">
-          {{ requestError.message }}
+          {{ messageError }}
         </div>
         }
         
-        @if (requestSuccess.message != '') {
+        @if (message != '') {
         <div class="alert alert-success" role="alert">
-          {{ requestSuccess.message }}
+          {{ message }}
         </div>
         }
 
         <form [formGroup]="form" (submit)="registerModel(form)">
-
           <div class="mb-3 mt-3">
             <label class="form-label">Nome:</label>
             <input type="text" class="form-control" formControlName="name" />
           </div>
 
-          @if (formError.name != '') {
-          <div class="alert alert-danger" role="alert">
-            {{ formError.name }}
-          </div>
+          @if (form.get('name')?.touched && form.get('name')?.invalid) {
+            <div class="alert alert-danger" role="alert">
+              {{ getErrorMessage('name', 'Nome') }}
+            </div>
           }
 
           <div class="mb-3 mt-3">
@@ -36,10 +35,10 @@
             <input type="text" class="form-control" formControlName="bradName" />
           </div>
 
-          @if (formError.bradName != '') {
-          <div class="alert alert-danger" role="alert">
-            {{ formError.bradName }}
-          </div>
+          @if (form.get('bradName')?.touched && form.get('bradName')?.invalid) {
+            <div class="alert alert-danger" role="alert">
+              {{ getErrorMessage('bradName', 'Nome da marca') }}
+            </div>
           }
 
           <div class="d-grid">

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -8,7 +9,7 @@ import {
 } from '@angular/forms';
 import { BrandRequest, BrandService } from '../../service/brand/brand.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { blankValidator } from '../../../validators/blank.validator';
+import { blankValidator } from '../../validators/blank.validator';
 import { ValidationService } from '../../service/validation/validation.service';
 
 @Component({
@@ -19,17 +20,17 @@ import { ValidationService } from '../../service/validation/validation.service';
 })
 export class BrandRegistrationComponent {
   private brandService = inject(BrandService);
-  form = new FormGroup(
-    {
-      name: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(30),
-        blankValidator()
-      ]),
-    }
-  );
+  form = new FormGroup({
+    name: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(30),
+      blankValidator(),
+    ]),
+  });
   message: string = '';
   messageError: string = '';
+
+  constructor() {}
 
   registerBrand(data: FormGroup) {
     this.cleanError();
@@ -57,7 +58,7 @@ export class BrandRegistrationComponent {
 
   getErrorMessage(controlName: string, label: string) {
     const control = this.form.get(controlName);
-    return ValidationService.getErrorMessage(control, label)
+    return ValidationService.getErrorMessage(control, label);
   }
 
   private cleanError() {
