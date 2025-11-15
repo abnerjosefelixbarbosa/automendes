@@ -1,5 +1,7 @@
 package com.automendes.backend.service;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,5 +14,7 @@ public interface BrandService {
 	
 	Page<Brand> listBrands(Pageable pageable);
 
-	Brand searchBrandById(String id); 
+	Brand searchBrandById(String id);
+
+	Optional<Brand> findByName(String name);
 }

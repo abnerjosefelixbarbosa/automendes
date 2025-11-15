@@ -1,7 +1,8 @@
 package com.automendes.backend.service.imp;
 
+import java.util.Optional;
+
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,13 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class BrandServiceImp implements BrandService {
-	@Autowired
 	private BrandRepository brandRepository;
-	@Autowired
 	private BrandValidation brandValidation;
+
+	public BrandServiceImp(BrandRepository brandRepository, BrandValidation brandValidation) {
+		this.brandRepository = brandRepository;
+		this.brandValidation = brandValidation;
+	}
 
 	@Transactional
 	public Brand registerBrand(Brand brand) {
@@ -48,7 +52,10 @@ public class BrandServiceImp implements BrandService {
 	}
 
 	public Brand searchBrandById(String id) {
-		return brandRepository.findById(id)
-				.orElseThrow(() -> new NotFoundException("Id deve ser existente."));
+		return brandRepository.findById(id).orElseThrow(() -> new NotFoundException("Id deve ser existente."));
+	}
+
+	public Optional<Brand> findByName(String name) {
+		return brandRepository.findByName(name);
 	}
 }

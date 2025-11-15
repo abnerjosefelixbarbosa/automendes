@@ -2,7 +2,6 @@ package com.automendes.backend.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -30,10 +29,13 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping(value = "/brands")
 public class BrandController {
-	@Autowired
 	private BrandMapper brandMapper;
-	@Autowired
 	private BrandService brandService;
+	
+	public BrandController(BrandMapper brandMapper, BrandService brandService) {
+		this.brandMapper = brandMapper;
+		this.brandService = brandService;
+	}
 
 	@ApiResponses({
 			@ApiResponse(responseCode = "201", description = "Registra uma marca."),
@@ -44,9 +46,9 @@ public class BrandController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(value = "/register-brand")
 	public ResponseEntity<BrandResponseDTO> registerBrand(@RequestBody @Valid BrandRequestDTO dto) {
-		Brand brand = brandService.registerBrand(brandMapper.toBrand(dto));
+		Brand response = brandService.registerBrand(brandMapper.toBrand(dto));
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(brandMapper.toBrandResponseDTO(brand));
+		return ResponseEntity.status(HttpStatus.CREATED).body(brandMapper.toBrandResponseDTO(response));
 	}
 	
 	@ApiResponses({
@@ -58,9 +60,9 @@ public class BrandController {
 	@ResponseStatus(HttpStatus.OK)
 	@PutMapping(value = "/update-brand-by-id")
 	public ResponseEntity<BrandResponseDTO> updateBrandById(@RequestParam String id, @RequestBody @Valid BrandRequestDTO dto) {
-		Brand brand = brandService.updateBrandById(id, brandMapper.toBrand(dto));
+		Brand response = brandService.updateBrandById(id, brandMapper.toBrand(dto));
 
-		return ResponseEntity.status(HttpStatus.OK).body(brandMapper.toBrandResponseDTO(brand));
+		return ResponseEntity.status(HttpStatus.OK).body(brandMapper.toBrandResponseDTO(response));
 	}
 	
 	@ApiResponses({
@@ -86,8 +88,8 @@ public class BrandController {
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = "/search-brand-by-id")
 	public ResponseEntity<BrandResponseDTO> searchBrandById(@RequestParam String id) {
-		Brand brand = brandService.searchBrandById(id);
+		Brand response = brandService.searchBrandById(id);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(brandMapper.toBrandResponseDTO(brand));
+		return ResponseEntity.status(HttpStatus.OK).body(brandMapper.toBrandResponseDTO(response));
 	} 
 }
