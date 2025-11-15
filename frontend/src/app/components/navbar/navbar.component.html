@@ -27,7 +27,7 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Marcas
+              Veículos
             </a>
             <ul class="dropdown-menu">
               <li>
@@ -36,20 +36,8 @@
                 >
               </li>
               <li>
-                <a class="dropdown-item"> Listagem de marcas </a>
+                <a class="dropdown-item">Listagem de marcas</a>
               </li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Modelos
-            </a>
-            <ul class="dropdown-menu">
               <li>
                 <a class="dropdown-item" [routerLink]="['/model-registration']"
                   >Registro de modelo</a
@@ -58,20 +46,12 @@
               <li>
                 <a class="dropdown-item">Listagem de modelos</a>
               </li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Veículos
-            </a>
-            <ul class="dropdown-menu">
               <li>
-                <a class="dropdown-item">Registro de veículo</a>
+                <a
+                  class="dropdown-item"
+                  [routerLink]="['/vehicle-registration']"
+                  >Registro de veículo</a
+                >
               </li>
               <li>
                 <a class="dropdown-item">Listagem de veículos</a>
