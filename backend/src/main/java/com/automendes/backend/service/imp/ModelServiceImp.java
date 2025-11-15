@@ -1,5 +1,7 @@
 package com.automendes.backend.service.imp;
 
+import java.util.Optional;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -66,5 +68,9 @@ public class ModelServiceImp implements ModelService {
 
 	public Model searchModelById(String id) {
 		return modelRepository.findById(id).orElseThrow(() -> new NotFoundException("Id deve ser exitente."));
+	}
+	
+	public Optional<Model> findByName(String name) {
+		return modelRepository.findByName(name);
 	}
 }

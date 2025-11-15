@@ -1,7 +1,6 @@
 package com.automendes.backend.service.imp;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -9,8 +8,8 @@ import org.springframework.stereotype.Component;
 import com.automendes.backend.entity.Model;
 import com.automendes.backend.entity.Vehicle;
 import com.automendes.backend.exception.NotFoundException;
-import com.automendes.backend.repository.ModelRepository;
 import com.automendes.backend.repository.VehicleRepository;
+import com.automendes.backend.service.ModelService;
 import com.automendes.backend.service.VehicleService;
 import com.automendes.backend.validation.VehicleValidation;
 import com.fasterxml.uuid.Generators;
@@ -19,18 +18,22 @@ import jakarta.transaction.Transactional;
 
 @Component
 public class VehicleServiceImp implements VehicleService {
-	@Autowired
 	private VehicleRepository vehicleRepository;
-	@Autowired
-	private ModelRepository modelRepository;
-	@Autowired
+	private ModelService modelService;
 	private VehicleValidation vehicleValidation;
+	
+	public VehicleServiceImp(VehicleRepository vehicleRepository, ModelService modelService,
+			VehicleValidation vehicleValidation) {
+		this.vehicleRepository = vehicleRepository;
+		this.modelService = modelService;
+		this.vehicleValidation = vehicleValidation;
+	}
 
 	@Transactional
 	public Vehicle registerVehicle(Vehicle vehicle) {
 		vehicleValidation.validateVehicle(vehicle);
 
-		Model model = modelRepository.findByName(vehicle.getModel().getName())
+		Model model = modelService.findByName(vehicle.getModel().getName())
 				.orElseThrow(() -> new NotFoundException("Nome do modelo deve ser existente."));
 
 		vehicle.setId(Generators.timeBasedEpochRandomGenerator().generate().toString());
@@ -44,7 +47,7 @@ public class VehicleServiceImp implements VehicleService {
 	public Vehicle updateVehicleById(String id, Vehicle vehicle) {
 		vehicleValidation.validateVehicle(vehicle);
 
-		Model model = modelRepository.findByName(vehicle.getModel().getName())
+		Model model = modelService.findByName(vehicle.getModel().getName())
 				.orElseThrow(() -> new NotFoundException("Nome do modelo deve ser existente."));
 
 		vehicle.setModel(model);

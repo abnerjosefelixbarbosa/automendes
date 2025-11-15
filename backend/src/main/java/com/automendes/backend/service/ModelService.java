@@ -1,5 +1,7 @@
 package com.automendes.backend.service;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,4 +15,6 @@ public interface ModelService {
 	Page<Model> listModels(Pageable pageable);
 
 	Model searchModelById(String id);
+	
+	Optional<Model> findByName(String name);
 }
