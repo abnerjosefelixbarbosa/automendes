@@ -1,5 +1,7 @@
 package com.automendes.backend.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -51,9 +53,9 @@ public class EmployeeController {
 
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = "/list-employees")
-	public ResponseEntity<Page<EmployeeResponseDTO>> listEmployees(Pageable pageable) {
+	public ResponseEntity<List<EmployeeResponseDTO>> listEmployees(Pageable pageable) {
 		Page<Employee> page = employeeService.listEmployees(pageable);
 
-		return ResponseEntity.status(HttpStatus.OK).body(page.map(employeeMapper::toEmployeeResponseDTO));
+		return ResponseEntity.status(HttpStatus.OK).body(page.map(employeeMapper::toEmployeeResponseDTO).toList());
 	}
 }
