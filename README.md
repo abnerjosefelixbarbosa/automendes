@@ -2,7 +2,7 @@
 
 # Sobre
 
-Aplicativo web para gerenciamento de concessionaria.
+Aplicativo backend para gerenciamento para empresa Automendes.
 
 ## Modelo
 
